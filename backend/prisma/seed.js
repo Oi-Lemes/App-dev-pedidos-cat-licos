@@ -13,6 +13,10 @@ try {
     // execSync('node prisma/seed_devocional.js', { stdio: 'inherit' });
 
     console.log("---------------------------------------------------------");
+    console.log("🎵 Rodando seed de MÚSICAS (R2/Local)...");
+    execSync('node prisma/seed_music.js', { stdio: 'inherit' });
+
+    console.log("---------------------------------------------------------");
     console.log("✅ SEED COMPLETO! O banco de dados está 100% atualizado com o Itinerário Quaresmal.");
 } catch (error) {
     console.error("❌ Erro ao rodar os seeds:", error);

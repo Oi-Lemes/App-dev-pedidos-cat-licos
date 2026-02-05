@@ -5,155 +5,172 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3';
+
 const prisma = new PrismaClient();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Ajuste o caminho base para onde estão as pastas de música
+// Configuração R2
+const r2 = new S3Client({
+    region: 'auto',
+    endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+    credentials: {
+        accessKeyId: process.env.R2_ACCESS_KEY_ID,
+        secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
+    },
+});
+
+const R2_BUCKET_NAME = process.env.R2_BUCKET_NAME;
+const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL;
 const MUSIC_BASE_DIR = path.join(__dirname, '../uploads/musicas');
+
+// Função para listar TUDO do R2 (Paginação)
+async function listAllR2Keys(prefix) {
+    let keys = [];
+    let continuationToken = undefined;
+
+    do {
+        const command = new ListObjectsV2Command({
+            Bucket: R2_BUCKET_NAME,
+            Prefix: prefix,
+            ContinuationToken: continuationToken
+        });
+        const response = await r2.send(command);
+        if (response.Contents) {
+            keys.push(...response.Contents);
+        }
+        continuationToken = response.NextContinuationToken;
+    } while (continuationToken);
+
+    return keys;
+}
 
 async function main() {
     console.log('🎸 INICIANDO SEED DE MÚSICAS CATÓLICAS...');
 
-    // Verifica se a pasta existe
-    if (!fs.existsSync(MUSIC_BASE_DIR)) {
-        console.error(`❌ Diretório não encontrado: ${MUSIC_BASE_DIR}`);
-        return;
+    let artistData = {}; // { 'NomeArtista': [ { name: 'musica', url: '...' } ] }
+    let source = 'LOCAL';
+
+    // 1. TENTA LER LOCALMENTE
+    if (fs.existsSync(MUSIC_BASE_DIR)) {
+        console.log("📂 Diretório local encontrado. Usando arquivos locais...");
+        const entries = fs.readdirSync(MUSIC_BASE_DIR, { withFileTypes: true });
+        const artistFolders = entries.filter(dirent => dirent.isDirectory()).map(dirent => dirent.name);
+
+        for (const artistName of artistFolders) {
+            artistData[artistName] = [];
+            const artistPath = path.join(MUSIC_BASE_DIR, artistName);
+
+            function scanDir(dir) {
+                const list = fs.readdirSync(dir, { withFileTypes: true });
+                list.forEach(item => {
+                    const fullPath = path.join(dir, item.name);
+                    if (item.isDirectory()) {
+                        scanDir(fullPath);
+                    } else if (item.isFile() && (item.name.endsWith('.mp3') || item.name.endsWith('.wav') || item.name.endsWith('.m4a'))) {
+                        const relative = path.relative(path.join(__dirname, '../uploads'), fullPath).replace(/\\/g, '/');
+                        let cleanName = item.name.replace(/\.[^/.]+$/, "").replace(/^\d+\s*[-_.]?\s*/, "");
+
+                        let url = R2_PUBLIC_URL ? `${R2_PUBLIC_URL}/${relative}` : `/uploads/${relative}`;
+                        url = url.replace(/ /g, '%20');
+
+                        artistData[artistName].push({ name: cleanName, url });
+                    }
+                });
+            }
+            scanDir(artistPath);
+        }
+    }
+    // 2. SE NÃO TIVER LOCAL, VAI NO R2
+    else {
+        source = 'CLOUD';
+        console.log(`☁️ Diretório local NÃO encontrado. Buscando no R2 (${R2_BUCKET_NAME})...`);
+
+        try {
+            const allObjects = await listAllR2Keys('musicas/');
+            console.log(`📦 Objetos encontrados no R2: ${allObjects.length}`);
+
+            allObjects.forEach(obj => {
+                const key = obj.Key; // ex: musicas/Padre Fabio/musica.mp3
+                if (!key.endsWith('.mp3') && !key.endsWith('.wav') && !key.endsWith('.m4a')) return;
+
+                const parts = key.split('/');
+                if (parts.length < 3) return; // musicas/Artista/Musica
+
+                const artistName = parts[1]; // Padre Fabio
+                const fileName = parts[parts.length - 1];
+                let cleanName = fileName.replace(/\.[^/.]+$/, "").replace(/^\d+\s*[-_.]?\s*/, "");
+
+                if (!artistData[artistName]) artistData[artistName] = [];
+
+                let url = `${R2_PUBLIC_URL}/${key}`;
+                url = url.replace(/ /g, '%20');
+
+                artistData[artistName].push({ name: cleanName, url });
+            });
+
+        } catch (e) {
+            console.error("❌ Erro ao listar do R2:", e);
+            return;
+        }
     }
 
-    // Lê as pastas (Artistas)
-    const entries = fs.readdirSync(MUSIC_BASE_DIR, { withFileTypes: true });
-    const artistFolders = entries.filter(dirent => dirent.isDirectory()).map(dirent => dirent.name);
+    const artistsFound = Object.keys(artistData);
+    console.log(`🎤 Artistas identificados (${source}): ${artistsFound.length}`);
 
-    console.log(`Encontrados ${artistFolders.length} artistas/pastas.`);
+    // --- CRIAÇÃO NO BANCO ---
 
-    // --- LÓGICA DE LIMPEZA E CRIAÇÃO DO MÓDULO ÚNICO ---
-
-    // 1. Limpar Módulos Antigos (Formato "🎵 Nome")
-    // Para não apagar o novo módulo único se rodar 2x, deletamos por padrão antigo ou ID específico se necessário.
-    // Aqui vamos deletar tudo que começa com "🎵 " EXCETO o nosso novo módulo se ele já existir com outro nome.
-    // Mas para garantir, vamos deletar TUDO de música e refazer.
-    console.log('🧹 Limpando módulos de música antigos...');
-    const oldModules = await prisma.modulo.findMany({
-        where: { nome: { startsWith: '🎵 ' } }
-    });
-    for (const om of oldModules) {
-        // Deleta aulas cascata? O schema diz onDelete: Cascade, então ok.
-        await prisma.modulo.delete({ where: { id: om.id } });
-    }
-
-    // 2. Criar Módulo Único "Músicas Católicas"
-    // Usamos um emoji diferente ou nome fixo para diferenciar no Frontend
+    // Nome do Módulo Seguro
     const SINGLE_MODULE_NAME = 'Musicas Catolicas (Acervo Completissimo)';
 
     let bigModule = await prisma.modulo.findFirst({ where: { nome: SINGLE_MODULE_NAME } });
 
-    if (bigModule) {
-        await prisma.modulo.update({
-            where: { id: bigModule.id },
-            data: {
-                ordem: 99,
-                imagem: '/img/background_catholic.png' // Imagem genérica para o módulo pai
-            }
-        });
-    } else {
+    if (!bigModule) {
         bigModule = await prisma.modulo.create({
             data: {
                 nome: SINGLE_MODULE_NAME,
                 description: 'Super coleção de músicas separadas por artista.',
                 ordem: 99,
-                imagem: '/img/background_catholic.png'
+                imagem: 'https://pub-77eb37976e33436098256561219b6717.r2.dev/background_catholic.png' // URL Fixa ou local
             }
         });
     }
-    console.log(`✅ Super Módulo Criado: ${bigModule.nome}`);
+    console.log(`✅ Módulo Garantido: ${bigModule.nome} (ID: ${bigModule.id})`);
 
-    // Limpar aulas desse módulo para não duplicar músicas ao re-rodar
+    // Limpar musicas antigas DESTE MÓDULO APENAS para evitar duplicatas
     await prisma.aula.deleteMany({ where: { moduloId: bigModule.id } });
 
-    // Contador global para ordem das músicas
     let globalOrder = 1;
 
-    for (let i = 0; i < artistFolders.length; i++) {
-        const artistName = artistFolders[i];
-        const artistPath = path.join(MUSIC_BASE_DIR, artistName);
+    for (const artistName of artistsFound) {
+        const songs = artistData[artistName];
+        if (songs.length === 0) continue;
 
-        console.log(`\n--- Processando Artista: ${artistName} ---`);
+        console.log(`   + ${artistName}: ${songs.length} músicas.`);
 
-        // Tentar achar a capa do ARTISTA para usar nas AULAS (Músicas)
-        // Assim o frontend pode agrupar e mostrar a foto do cantor
+        // Imagem do artista (Tentativa genérica ou fixa)
+        // No R2 é dificil achar a "capa" sem listar tudo de novo, vamos usar genérica por enquanto ou tentar inferir
+        // Para simplificar, usamos imagem padrão se for CLOUD, ou tentamos achar cover.jpg na lista
         let artistImage = '/img/background_catholic.png';
-        const artistFiles = fs.readdirSync(artistPath);
-        const coverFile = artistFiles.find(f => f.toLowerCase().match(/^cover\.|^folder\.|^fanart\.|^album\.|^art\./) && (f.endsWith('.jpg') || f.endsWith('.png')));
 
-        if (coverFile) {
-            // Caminho web para a imagem
-            artistImage = `/uploads/musicas/${artistName}/${coverFile}?v=${Date.now()}`;
-        }
-
-        // Escanear Músicas
-        const songs = [];
-
-        function scanDir(dir) {
-            const list = fs.readdirSync(dir, { withFileTypes: true });
-            list.forEach(item => {
-                const fullPath = path.join(dir, item.name);
-                if (item.isDirectory()) {
-                    scanDir(fullPath);
-                } else if (item.isFile() && (item.name.endsWith('.mp3') || item.name.endsWith('.wav') || item.name.endsWith('.m4a'))) {
-                    const uploadsDir = path.join(__dirname, '../uploads');
-                    const relative = path.relative(uploadsDir, fullPath).replace(/\\/g, '/');
-                    // Removed local url declaration here to rely on the logic below
-
-                    let cleanName = item.name.replace(/\.[^/.]+$/, "");
-                    cleanName = cleanName.replace(/^\d+\s*[-_.]?\s*/, "");
-
-                    // LÓGICA R2 vs LOCAL
-                    let url = '';
-                    const R2_URL = process.env.R2_PUBLIC_URL;
-
-                    if (R2_URL) {
-                        const cleanRelative = relative.startsWith('musicas/') ? relative : `musicas/${relative}`;
-                        const finalPath = cleanRelative.replace('//', '/');
-                        url = `${R2_URL}/${finalPath}`;
-                    } else {
-                        url = `/uploads/${relative}`;
-                    }
-
-                    // Encode
-                    url = url.replace(/ /g, '%20');
-
-                    songs.push({
-                        name: cleanName,
-                        url: url
-                    });
-                }
-            });
-        }
-
-        scanDir(artistPath);
-        console.log(`   + ${songs.length} músicas.`);
-
-        // Criar Aulas (Músicas) vinculadas ao SUPER MÓDULO
-        // Importante: 'descricao' = Nome do Artista (usado para agrupar)
-        // 'imagem' = Foto do Artista
         for (const song of songs) {
             await prisma.aula.create({
                 data: {
                     nome: song.name,
-                    descricao: artistName, // <--- CHAVE DO AGRUPAMENTO
+                    descricao: artistName,
                     content: `**${song.name}**\n\n*Artista: ${artistName}*`,
                     videoUrl: song.url,
-                    imagem: artistImage,   // <--- FOTO DO CANTOR
+                    imagem: artistImage,
                     isImage: false,
                     ordem: globalOrder++,
-                    moduloId: bigModule.id // Tudo no mesmo módulo
+                    moduloId: bigModule.id
                 }
             });
         }
     }
 
-    console.log('\n✅ SEED DE MÚSICAS CONCLUÍDO!');
+    console.log(`\n✅ SEED DE MÚSICAS CONCLUÍDO (${source})!`);
 }
 
 main()
