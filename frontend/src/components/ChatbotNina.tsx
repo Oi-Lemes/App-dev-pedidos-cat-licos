@@ -317,24 +317,9 @@ export default function ChatbotNina() {
         }
     };
 
-    // --- BUTTON CLICK LOGIC (PAYWALL) ---
+    // --- BUTTON CLICK LOGIC (SIMPLIFIED - TODOS TÊM ACESSO) ---
     const handleButtonClick = () => {
-        // LÓGICA DE ACESSO:
-        // Se estiver em modo BETA (Grátis) OU Usuário tiver plano superior/acesso
-        // Abre o chat direto. Caso contrário, pede PIX.
-
-        // Lógica de Bloqueio:
-        // Se FREE_NINA_BETA is true -> Liberado
-        // Se user.plan == 'ultra' OR 'premium' -> Liberado
-        // Se user.hasNinaAccess -> Liberado
-        // Caso contrário -> Bloqueado (Manda pagar)
-        const canAccess = FREE_NINA_BETA || user?.plan === 'ultra' || user?.plan === 'premium' || user?.hasNinaAccess;
-
-        if (canAccess) {
-            setIsOpen(prev => !prev);
-        } else {
-            handleUnlockClick();
-        }
+        setIsOpen(prev => !prev);
     };
 
     return (
@@ -359,14 +344,6 @@ export default function ChatbotNina() {
                                 alt="Chat com Irmã Dulce"
                                 className="w-full h-full rounded-full object-cover border-2 border-white/50"
                             />
-                            {/* Cadeado se for Básico E NÃO FOR BETA GRÁTIS */}
-                            {!FREE_NINA_BETA && user?.plan === 'basic' && (
-                                <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                    </svg>
-                                </div>
-                            )}
                         </div>
                     )}
 

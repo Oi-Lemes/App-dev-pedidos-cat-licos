@@ -43,7 +43,7 @@ export default function ModuloPage() {
         return;
       }
       try {
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
         const [moduloRes, progressoRes] = await Promise.all([
           fetch(`${backendUrl}/modulos/${id}`, { headers: { 'Authorization': `Bearer ${token}` }, cache: 'no-store' }),
           fetch(`${backendUrl}/progresso`, { headers: { 'Authorization': `Bearer ${token}` }, cache: 'no-store' })

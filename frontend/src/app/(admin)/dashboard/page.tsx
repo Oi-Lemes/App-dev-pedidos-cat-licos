@@ -197,7 +197,7 @@ export default function DashboardPage() {
     try {
       setLoading(true);
       setErrorMessage(null);
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
       console.log('🔍 DEBUG: Backend URL being used:', backendUrl); // LOG PARA DEBUG
 
