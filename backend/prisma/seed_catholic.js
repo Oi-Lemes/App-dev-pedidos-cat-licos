@@ -955,6 +955,8 @@ async function main() {
   console.log('🎸 Processando Módulo de Músicas...');
   const MUSIC_BASE_DIR = path.join(__dirname, '../uploads/musicas');
 
+  // NO RENDER (PRODUÇÃO), A PASTA NÃO EXISTE (POIS ESTÁ NO GITIGNORE)
+  // ENTÃO PULAMOS ESSA ETAPA, POIS O BANCO JÁ DEVE ESTAR POPULADO COM AS URLs DO R2.
   if (fs.existsSync(MUSIC_BASE_DIR)) {
     const entries = fs.readdirSync(MUSIC_BASE_DIR, { withFileTypes: true });
     const artistFolders = entries.filter(dirent => dirent.isDirectory()).map(dirent => dirent.name);
@@ -1007,7 +1009,30 @@ async function main() {
           } else if (item.isFile() && (item.name.endsWith('.mp3') || item.name.endsWith('.wav') || item.name.endsWith('.m4a'))) {
             const uploadsDir = path.join(__dirname, '../uploads');
             const relative = path.relative(uploadsDir, fullPath).replace(/\\/g, '/');
-            songs.push({ name: item.name.replace(/\.[^/.]+$/, "").replace(/^\d+\s*[-_.]?\s*/, ""), url: `/uploads/${relative}` });
+
+            // LÓGICA R2 vs LOCAL
+            let url = '';
+            const R2_URL = process.env.R2_PUBLIC_URL; // Ex: https://pub-xxxx.r2.dev
+
+            if (R2_URL) {
+              // R2: bucket/musicas/Artista/Album/musica.mp3
+              // relative já é "musicas/Artista/Album/musica.mp3" (se musicas tiver dentro de uploads)
+              // No seed_music.js que usamos, 'dir' já é 'uploads/musicas'.
+              // relative: "Ziza Fernandes/Album/file.mp3"
+              // Bucket path: "musicas/Ziza Fernandes/Album/file.mp3"
+              const cleanRelative = relative.startsWith('musicas/') ? relative : `musicas/${relative}`;
+              // Remover barras duplicadas se houver
+              const finalPath = cleanRelative.replace('//', '/');
+              url = `${R2_URL}/${finalPath}`;
+            } else {
+              // Local
+              url = `/uploads/${relative}`;
+            }
+
+            // Fallback encode para garantir
+            url = url.replace(/ /g, '%20');
+
+            songs.push({ name: item.name.replace(/\.[^/.]+$/, "").replace(/^\d+\s*[-_.]?\s*/, ""), url: url });
           }
         });
       };

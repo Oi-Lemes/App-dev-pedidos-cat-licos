@@ -39,7 +39,7 @@ const LayoutWithSidebar = ({ children }: { children: React.ReactNode }) => {
     if (!token) return;
 
     try {
-      const backendUrl = 'http://localhost:3001'; // LOCALHOST
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001'; // ENV VAR
       const [modulosRes, progressoRes] = await Promise.all([
         fetch(`${backendUrl}/modulos`, { headers: { 'Authorization': `Bearer ${token}` }, cache: 'no-store' }),
         fetch(`${backendUrl}/progresso`, { headers: { 'Authorization': `Bearer ${token}` }, cache: 'no-store' })

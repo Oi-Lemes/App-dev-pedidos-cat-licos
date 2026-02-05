@@ -1,0 +1,16 @@
+
+FullName                                                                                          SizeMB
+--------                                                                                          ------
+C:\Users\pedro\Downloads\App orações católicas\frontend\node_modules\motion-dom\dist\es\effects         
+C:\Users\pedro\Downloads\App orações católicas\frontend\node_modules\motion-dom\dist\es\animation       
+C:\Users\pedro\Downloads\App orações católicas\frontend\node_modules\motion-dom\dist\es                 
+C:\Users\pedro\Downloads\App orações católicas\frontend\node_modules\motion-dom\dist\es\gestures        
+C:\Users\pedro\Downloads\App orações católicas\frontend\node_modules\motion-dom\dist\es\frameloop       
+C:\Users\pedro\Downloads\App orações católicas\frontend\node_modules\motion-dom\dist\es\events          
+C:\Users\pedro\Downloads\App orações católicas\frontend\node_modules\minipass\dist\commonjs             
+C:\Users\pedro\Downloads\App orações católicas\frontend\node_modules\minipass\dist                      
+C:\Users\pedro\Downloads\App orações católicas\frontend\node_modules\minimatch\dist\esm                 
+C:\Users\pedro\Downloads\App orações católicas\frontend\node_modules\motion-dom\dist\cjs                
+
+
+

@@ -145,7 +145,13 @@ export default function LoginPage() {
     setMessage('');
 
     try {
-      const backendUrl = 'http://localhost:3001'; // LOCALHOST
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+      console.log('🔗 DEBUG - BACKEND URL:', backendUrl); // Debug para o usuário ver
+
+      if (!backendUrl) {
+        alert('ERRO CRÍTICO: Variável de ambiente NEXT_PUBLIC_BACKEND_URL não encontrada!');
+        throw new Error('Backend URL missing');
+      }
       const response = await fetch(`${backendUrl}/auth/login-phone`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

@@ -190,6 +190,11 @@ app.get('/debug-files', (req, res) => {
     }
 });
 
+// --- R2 PUBLIC URL CONFIG ---
+const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL || '';
+// Se definido, usamos URLs absolutas para músicas: https://pub-xxxx.r2.dev/musicas/...
+// Se vazio, usamos URLs relativas locais: /uploads/musicas/...
+
 // --- ROTA DE DOWNLOAD FORÇADO ---
 app.get('/download/:category/:subfolder/:file', (req, res) => {
     const { category, subfolder, file } = req.params;

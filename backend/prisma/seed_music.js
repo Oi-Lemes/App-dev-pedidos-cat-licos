@@ -103,10 +103,25 @@ async function main() {
                 } else if (item.isFile() && (item.name.endsWith('.mp3') || item.name.endsWith('.wav') || item.name.endsWith('.m4a'))) {
                     const uploadsDir = path.join(__dirname, '../uploads');
                     const relative = path.relative(uploadsDir, fullPath).replace(/\\/g, '/');
-                    const url = `/uploads/${relative}`;
+                    // Removed local url declaration here to rely on the logic below
 
                     let cleanName = item.name.replace(/\.[^/.]+$/, "");
                     cleanName = cleanName.replace(/^\d+\s*[-_.]?\s*/, "");
+
+                    // LÓGICA R2 vs LOCAL
+                    let url = '';
+                    const R2_URL = process.env.R2_PUBLIC_URL;
+
+                    if (R2_URL) {
+                        const cleanRelative = relative.startsWith('musicas/') ? relative : `musicas/${relative}`;
+                        const finalPath = cleanRelative.replace('//', '/');
+                        url = `${R2_URL}/${finalPath}`;
+                    } else {
+                        url = `/uploads/${relative}`;
+                    }
+
+                    // Encode
+                    url = url.replace(/ /g, '%20');
 
                     songs.push({
                         name: cleanName,
