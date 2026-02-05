@@ -44,7 +44,7 @@ async function main() {
 
     // 2. Criar Módulo Único "Músicas Católicas"
     // Usamos um emoji diferente ou nome fixo para diferenciar no Frontend
-    const SINGLE_MODULE_NAME = '🎹 Músicas Católicas (Acervo)';
+    const SINGLE_MODULE_NAME = 'Musicas Catolicas (Acervo Completissimo)';
 
     let bigModule = await prisma.modulo.findFirst({ where: { nome: SINGLE_MODULE_NAME } });
 
