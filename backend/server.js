@@ -421,41 +421,38 @@ app.post('/auth/login-phone', async (req, res) => {
     }
 });
 
-// --- WEBHOOK PARADISE PAGS ---
-app.post('/webhook/paradise', async (req, res) => {
+// --- WEBHOOK GGCHECKOUT ---
+app.post('/webhook/ggcheckout', async (req, res) => {
     const event = req.body;
     try {
-        console.log('[WEBHOOK RAW PAYLOAD]:', JSON.stringify(event, null, 2)); // Debug GGCheckout
+        console.log('[WEBHOOK GGCHECKOUT RAW]:', JSON.stringify(event, null, 2));
 
-        const eventType = event.event || event.status || event.type; // GGCheckout usa 'event' ou 'type'?
+        const eventType = event.event || event.status || event.type;
         const product = event.product || {};
         const incomingHash = product.hash || product.id || event.product_hash || (event.tracking || {}).product_hash;
         const client = event.client || event.customer || {};
 
-        console.log(`[WEBHOOK] Evento: ${eventType} | Produto: ${incomingHash}`);
+        console.log(`[GG-WEBHOOK] Evento: ${eventType} | Produto: ${incomingHash}`);
 
-        const TARGET_PRODUCT_HASH = process.env.PARADISE_PRODUCT_HASH;
+        // Aceita qualquer hash configurado nas variáveis de ambiente (GG ou Antigo Paradise)
+        const TARGET_PRODUCT_HASH = process.env.GG_PRODUCT_HASH || process.env.PARADISE_PRODUCT_HASH;
+
         if (TARGET_PRODUCT_HASH && incomingHash && incomingHash !== TARGET_PRODUCT_HASH) {
+            console.log(`[GG-WEBHOOK] Ignorado: Hash ${incomingHash} diferente do esperado.`);
             return res.status(200).send('Ignorado: Produto diferente');
         }
 
-        // CONSTANTES DAS OFERTAS (Fornecidas pelo Usuário)
-        const PRODUCT_ID_MAIN = 'prod_372117ff2ba365a1'; // Produto Pai
+        // CONSTANTES DAS OFERTAS (Atualize conforme a GGCheckout)
+        // Se a GGCheckout mandar IDs diferentes, você verá no log RAW acima.
+        const OFFER_PREMIUM = '6adf6a54a5'; // Mantenha ou atualize se necessário
         const OFFER_BASIC = '9b7d69dcb4';
-        const OFFER_PREMIUM = '6adf6a54a5';
-        const OFFER_DISCOUNT_27 = '210f8fbf65'; // Oferta de R$ 27,00 (Libera Básico)
 
-        // NOVOS PRODUTOS (HASHES DEFINITIVOS)
-        const PROD_CERTIFICADO = 'prod_0bc162e2175f527f';
-        const PROD_NINA = 'prod_0d6f903b6855c714';
-
-        // Tenta capturar o Hash da Oferta ou do Produto
-        // Paradise envia estruturas variadas ex: event.offer.hash, event.product.offer_hash, etc.
+        // Tenta capturar o Hash da Oferta
         const offerHash = (event.offer && event.offer.hash) ||
             (product && product.offer_hash) ||
-            incomingHash; // Fallback para o hash principal recebido
+            incomingHash;
 
-        if (eventType === 'purchase.approved' || eventType === 'paid' || eventType === 'approved') {
+        if (eventType === 'purchase.approved' || eventType === 'paid' || eventType === 'approved' || eventType === 'pix.paid') {
             let email = client.email;
             const name = client.name;
             const phone = client.phone ? client.phone.replace(/\D/g, '') : null;
@@ -468,87 +465,90 @@ app.post('/webhook/paradise', async (req, res) => {
 
             if (offerHash === OFFER_PREMIUM) {
                 targetPlan = 'premium';
-                console.log(`[WEBHOOK] Detectada oferta PREMIUM (${offerHash})`);
-            } else if (offerHash === OFFER_BASIC || offerHash === OFFER_DISCOUNT_27) {
-                targetPlan = 'basic';
-                console.log(`[WEBHOOK] Detectada oferta BÁSICA/PROMO (${offerHash})`);
-            } else if (offerHash === PROD_CERTIFICADO) {
-                // Compra de Certificado AVULSO (mantém plano atual, mas libera carteira)
-                // Como o upsert exige plano, mantemos 'basic' se não tiver, ou o atual se já tiver (handled by logic below?)
-                // Upsert sobrescreve? Sim. Então vamos assumir Basic com acesso extra.
-                targetPlan = 'basic';
-                grantWalletAccess = true;
-                console.log(`[WEBHOOK] Detectada compra de CERTIFICADO (${offerHash})`);
-            } else if (offerHash === PROD_NINA) {
-                targetPlan = 'basic';
-                grantNinaAccess = true;
-                console.log(`[WEBHOOK] Detectada compra de NINA (${offerHash})`);
+                console.log(`[GG-WEBHOOK] Detectada oferta PREMIUM (${offerHash})`);
             } else {
-                console.log(`[WEBHOOK] Oferta desconhecida (${offerHash}), atribuindo plano Básico por padrão.`);
+                // Fallback para básico
+                console.log(`[GG-WEBHOOK] Oferta Geral (${offerHash}) -> Atribuindo Básico`);
             }
+            targetPlan = 'basic';
+            console.log(`[WEBHOOK] Detectada oferta BÁSICA/PROMO (${offerHash})`);
+        } else if (offerHash === PROD_CERTIFICADO) {
+            // Compra de Certificado AVULSO (mantém plano atual, mas libera carteira)
+            // Como o upsert exige plano, mantemos 'basic' se não tiver, ou o atual se já tiver (handled by logic below?)
+            // Upsert sobrescreve? Sim. Então vamos assumir Basic com acesso extra.
+            targetPlan = 'basic';
+            grantWalletAccess = true;
+            console.log(`[WEBHOOK] Detectada compra de CERTIFICADO (${offerHash})`);
+        } else if (offerHash === PROD_NINA) {
+            targetPlan = 'basic';
+            grantNinaAccess = true;
+            console.log(`[WEBHOOK] Detectada compra de NINA (${offerHash})`);
+        } else {
+            console.log(`[WEBHOOK] Oferta desconhecida (${offerHash}), atribuindo plano Básico por padrão.`);
+        }
 
-            // Lógica de conflito de email (mantida)
-            if (email) {
-                const userWithEmail = await prisma.user.findFirst({ where: { email: email } });
-                if (userWithEmail && userWithEmail.phone !== phone) {
-                    email = `${phone}@conflict.verificar`;
-                }
-            }
-
-            if (!phone) {
-                return res.status(200).send('OK, mas sem telefone');
-            }
-
-            // FIX: Primeiro busca o user para não fazer downgrade acidental de Premium -> Basic
-            const existingUser = await prisma.user.findUnique({ where: { phone: phone } });
-
-            // Se já for Premium e comprou Certificado, MANTÉM Premium.
-            if (existingUser && existingUser.plan === 'premium') {
-                targetPlan = 'premium';
-            }
-
-            // Preserva acessos anteriores se já tiver
-            if (existingUser?.hasWalletAccess) grantWalletAccess = true;
-            if (existingUser?.hasNinaAccess) grantNinaAccess = true;
-
-            const user = await prisma.user.upsert({
-                where: { phone: phone },
-                // Se já existe, atualiza
-                update: {
-                    plan: targetPlan,
-                    status: 'active',
-                    name: name,
-                    email: email,
-                    hasWalletAccess: grantWalletAccess,
-                    hasNinaAccess: grantNinaAccess
-                },
-                create: {
-                    phone: phone,
-                    email: email || `${phone}@sememail.com`,
-                    name: name || 'Aluno Novo',
-                    plan: targetPlan,
-                    status: 'active',
-                    cpf: cpf,
-                    hasWalletAccess: grantWalletAccess,
-                    hasNinaAccess: grantNinaAccess
-                }
-            });
-            console.log(`[WEBHOOK] Usuário APROVADO: ${user.name} (${user.phone}) -> Plano: ${targetPlan}`);
-        } else if (eventType === 'purchase.refunded' || eventType === 'chargeback') {
-            const phone = client.phone ? client.phone.replace(/\D/g, '') : null;
-            if (phone) {
-                await prisma.user.updateMany({
-                    where: { phone: phone },
-                    data: { plan: 'banned', status: 'refunded', hasLiveAccess: false, hasNinaAccess: false }
-                });
-                console.log(`[WEBHOOK] Acesso REVOGADO para: ${phone}`);
+        // Lógica de conflito de email (mantida)
+        if (email) {
+            const userWithEmail = await prisma.user.findFirst({ where: { email: email } });
+            if (userWithEmail && userWithEmail.phone !== phone) {
+                email = `${phone}@conflict.verificar`;
             }
         }
-        res.status(200).send('Webhook processado');
-    } catch (error) {
-        console.error('[WEBHOOK] Erro:', error);
-        res.status(500).send('Erro no processamento');
+
+        if (!phone) {
+            return res.status(200).send('OK, mas sem telefone');
+        }
+
+        // FIX: Primeiro busca o user para não fazer downgrade acidental de Premium -> Basic
+        const existingUser = await prisma.user.findUnique({ where: { phone: phone } });
+
+        // Se já for Premium e comprou Certificado, MANTÉM Premium.
+        if (existingUser && existingUser.plan === 'premium') {
+            targetPlan = 'premium';
+        }
+
+        // Preserva acessos anteriores se já tiver
+        if (existingUser?.hasWalletAccess) grantWalletAccess = true;
+        if (existingUser?.hasNinaAccess) grantNinaAccess = true;
+
+        const user = await prisma.user.upsert({
+            where: { phone: phone },
+            // Se já existe, atualiza
+            update: {
+                plan: targetPlan,
+                status: 'active',
+                name: name,
+                email: email,
+                hasWalletAccess: grantWalletAccess,
+                hasNinaAccess: grantNinaAccess
+            },
+            create: {
+                phone: phone,
+                email: email || `${phone}@sememail.com`,
+                name: name || 'Aluno Novo',
+                plan: targetPlan,
+                status: 'active',
+                cpf: cpf,
+                hasWalletAccess: grantWalletAccess,
+                hasNinaAccess: grantNinaAccess
+            }
+        });
+        console.log(`[WEBHOOK] Usuário APROVADO: ${user.name} (${user.phone}) -> Plano: ${targetPlan}`);
+    } else if (eventType === 'purchase.refunded' || eventType === 'chargeback') {
+        const phone = client.phone ? client.phone.replace(/\D/g, '') : null;
+        if (phone) {
+            await prisma.user.updateMany({
+                where: { phone: phone },
+                data: { plan: 'banned', status: 'refunded', hasLiveAccess: false, hasNinaAccess: false }
+            });
+            console.log(`[WEBHOOK] Acesso REVOGADO para: ${phone}`);
+        }
     }
+    res.status(200).send('Webhook processado');
+} catch (error) {
+    console.error('[WEBHOOK] Erro:', error);
+    res.status(500).send('Erro no processamento');
+}
 });
 
 // --- NOVO WEBHOOK DE REEMBOLSO (ESPECÍFICO) ---
@@ -1264,6 +1264,6 @@ app.get('/secure-download/:aulaId', authenticateToken, async (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`\n🚀 SERVIDOR REAL (PRISMA) RODANDO NA PORTA ${PORT}`);
-    console.log(`💳 Webhook Paradise ativo em /webhook/paradise`);
+    console.log(`\n🚀 SERVIDOR ONLINE NA PORTA ${PORT}`);
+    console.log(`💳 Webhook GGCheckout ativo em /webhook/ggcheckout`);
 });
