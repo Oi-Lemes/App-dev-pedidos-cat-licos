@@ -698,23 +698,43 @@ app.post('/upload-profile-image', authenticateToken, upload.single('profileImage
 
         console.log(`[UPLOAD] Processando imagem para User ${req.user.id}...`);
 
-        // Processamento com SHARP: Redimensionar e Converter para Base64
-        // 300x300 é suficiente para avatar, qualidade 80 remove peso desnecessário
+        // Processamento com SHARP: Redimensionar e Otimizar
         const processedBuffer = await sharp(req.file.buffer)
-            .resize(300, 300, { fit: 'cover' })
+            .resize(400, 400, { fit: 'cover' })
             .jpeg({ quality: 80 })
             .toBuffer();
 
-        const base64Image = `data:image/jpeg;base64,${processedBuffer.toString('base64')}`;
+        // --- UPLOAD PARA R2 (Cloudflare) ---
+        const ext = 'jpg';
+        const filename = `avatars/${req.user.id}-${Date.now()}.${ext}`;
 
-        // Atualiza no Banco com a string Base64 completa
-        const updatedUser = await prisma.user.update({
-            where: { id: req.user.id },
-            data: { profileImage: base64Image }
+        const { S3Client, PutObjectCommand } = await import('@aws-sdk/client-s3');
+        const r2 = new S3Client({
+            region: 'auto',
+            endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+            credentials: {
+                accessKeyId: process.env.R2_ACCESS_KEY_ID,
+                secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
+            },
         });
 
-        console.log(`[UPLOAD] Sucesso! Tamanho salvo: ${Math.round(base64Image.length / 1024)}KB`);
-        res.json({ success: true, profileImage: base64Image, user: updatedUser });
+        await r2.send(new PutObjectCommand({
+            Bucket: process.env.R2_BUCKET_NAME,
+            Key: filename,
+            Body: processedBuffer,
+            ContentType: 'image/jpeg'
+        }));
+
+        const publicUrl = `${process.env.R2_PUBLIC_URL}/${filename}`;
+
+        // Atualiza no Banco com a URL do R2
+        const updatedUser = await prisma.user.update({
+            where: { id: req.user.id },
+            data: { profileImage: publicUrl }
+        });
+
+        console.log(`[UPLOAD R2] Sucesso: ${publicUrl}`);
+        res.json({ success: true, profileImage: publicUrl, user: updatedUser });
 
     } catch (error) {
         console.error("Erro no upload:", error);
