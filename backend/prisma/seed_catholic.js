@@ -883,10 +883,31 @@ async function main() {
   const countBefore = await prisma.modulo.count();
   console.log(`Módulos antes do delete: ${countBefore}`);
 
-  console.log('Limpando aulas e módulos antigos...');
+  console.log('Limpando aulas e módulos antigos (EXCETO MÚSICAS)...');
+
+  // Limpar Progresso (apenas aulas não-música, difícil filtrar sem join, vamos limpar tudo por enquanto ou filtrar por ID se possível)
+  // Simplificação: Limpar tudo de progresso não tem problema grave por enquanto, ou melhor, PRESERVAR SE DER.
+  // Mas para garantir integridade, deletar tudo de progresso é mais seguro se IDs mudarem.
   await prisma.progresso.deleteMany({});
-  await prisma.aula.deleteMany({});
-  await prisma.modulo.deleteMany({});
+
+  // Protegendo o Módulo de Músicas
+  const musicModName = 'Musicas Catolicas (Acervo Completissimo)';
+
+  // Deletar aulas que NÃO são do módulo de música
+  await prisma.aula.deleteMany({
+    where: {
+      modulo: {
+        nome: { not: musicModName }
+      }
+    }
+  });
+
+  // Deletar módulos que NÃO são de música
+  await prisma.modulo.deleteMany({
+    where: {
+      nome: { not: musicModName }
+    }
+  });
 
   for (let i = 0; i < MODULES_STRUCTURE.length; i++) {
     const modData = MODULES_STRUCTURE[i];

@@ -12,7 +12,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 // --- Componente Interno para a Sidebar e Conteúdo ---
 const LayoutWithSidebar = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
-  const { user, loading: userLoading } = useUser();
+  const { user, loading: userLoading, setUser } = useUser();
 
   const [progressoTotal, setProgressoTotal] = useState(0);
   const [modulos, setModulos] = useState<any[]>([]);
@@ -186,8 +186,13 @@ const LayoutWithSidebar = ({ children }: { children: React.ReactNode }) => {
                         });
                         if (res.ok) {
                           const data = await res.json();
-                          // Force reload to update context/image
-                          window.location.reload();
+                          // Atualiza o contexto SEM recarregar a página (SPA UX)
+                          if (setUser) {
+                            setUser((prev: any) => {
+                              if (!prev) return prev;
+                              return { ...prev, profileImage: data.profileImage };
+                            });
+                          }
                         } else {
                           alert("Erro ao enviar imagem.");
                         }
