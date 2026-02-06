@@ -73,6 +73,7 @@ export default function AulaPage() {
   const aulaIndex = modulo?.aulas?.findIndex((a: any) => a.id === aulaId) ?? -1;
   const isUltimaAulaDoModulo = modulo?.aulas && aulaIndex === modulo.aulas.length - 1;
   const isModuloConcluido = modulo?.aulas?.every((a: any) => aulasConcluidas.includes(a.id));
+  const isMusicModule = modulo?.nome?.toLowerCase().includes('música') || modulo?.nome?.toLowerCase().includes('acervo');
 
   const getFullUrl = (path: string | null | undefined) => {
     if (!path) return '';
@@ -596,17 +597,19 @@ export default function AulaPage() {
           </div>
         )}
 
-        {/* Botão Próximo */}
-        <div className="flex flex-col sm:flex-row items-center justify-end gap-4 p-4 mt-8 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700">
-          <button
-            onClick={handleProximo}
-            disabled={isRedirecting}
-            className="w-full sm:w-auto px-8 py-3 rounded-full font-semibold text-base transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-500 text-white shadow-sky-600/30 disabled:bg-gray-500 disabled:cursor-not-allowed disabled:shadow-none disabled:translate-y-0"
-          >
-            <span>{isUltimaAulaDoModulo ? 'Concluir Módulo' : 'Concluir oração'}</span>
-            <span>{isUltimaAulaDoModulo ? 'Concluir Módulo' : 'Concluir oração'}</span>
-          </button>
-        </div>
+        {/* Botão Próximo (Escondido se for Música) */}
+        {!isMusicModule && (
+          <div className="flex flex-col sm:flex-row items-center justify-end gap-4 p-4 mt-8 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700">
+            <button
+              onClick={handleProximo}
+              disabled={isRedirecting}
+              className="w-full sm:w-auto px-8 py-3 rounded-full font-semibold text-base transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-500 text-white shadow-sky-600/30 disabled:bg-gray-500 disabled:cursor-not-allowed disabled:shadow-none disabled:translate-y-0"
+            >
+              <span>{isUltimaAulaDoModulo ? 'Concluir Módulo' : 'Concluir oração'}</span>
+              <ArrowRightIcon className="w-5 h-5" />
+            </button>
+          </div>
+        )}
       </main>
     </div>
   );
