@@ -188,7 +188,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md p-8 space-y-8 bg-black/60 backdrop-blur-xl border border-amber-500/30 rounded-2xl shadow-2xl relative z-10 transition-all hover:border-amber-500/50 hover:shadow-amber-900/20">
 
         <div className="text-center space-y-2">
-          <h1 className="text-4xl font-serif text-amber-100 tracking-wide italic drop-shadow-lg">Acessar Devocional <span className="text-amber-400">Mariano</span></h1>
+          <h1 className="text-4xl font-serif text-amber-100 tracking-wide italic drop-shadow-lg">Acessar <span className="text-amber-400">Manual Católico da Graça</span></h1>
           <p className="text-amber-200/60 text-sm font-light tracking-widest uppercase">Digite seu WhatsApp para entrar</p>
         </div>
 
@@ -230,7 +230,7 @@ export default function LoginPage() {
         </div>
       </div>
 
-      <p className="mt-8 text-xs text-gray-600 font-serif italic">"A natureza guarda os segredos da cura."</p>
+      <p className="mt-8 text-xs text-gray-600 font-serif italic">"Tudo posso naquele que me fortalece."</p>
     </main>
   );
 }

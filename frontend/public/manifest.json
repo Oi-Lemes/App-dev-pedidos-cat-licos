@@ -1,7 +1,7 @@
 {
-  "name": "Saberes da Floresta",
-  "short_name": "S.Floresta",
-  "description": "Acesso exclusivo para membros do curso Saberes da Floresta.",
+  "name": "Manual Católico da Graça",
+  "short_name": "Manual Católico",
+  "description": "Acesso exclusivo para membros do Manual Católico da Graça.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a0a",

@@ -112,7 +112,7 @@ export default function ModuloPage() {
   }
 
   // --- LÓGICA DE MÚSICA ---
-  const isMusicModule = modulo.nome.includes('Músicas Católicas') || modulo.nome.includes('Acervo');
+  const isMusicModule = modulo.nome.includes('Músicas Católicas') || modulo.nome.includes('Música Católica') || modulo.nome.includes('Acervo');
 
   // Agrupar Artistas se for módulo de música
   // Map<NomeArtista, {imagem, count}>

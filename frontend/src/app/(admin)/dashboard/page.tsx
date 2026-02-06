@@ -431,7 +431,7 @@ export default function DashboardPage() {
               <TypewriterTitle text="Bem vindo ao" fontSize="100px" viewBox="0 0 1500 300" y="80%" className="p-0 m-0 drop-shadow-2xl" />
             </div>
             <div className="w-full min-w-[300px]">
-              <TypewriterTitle text="365 dias com Maria" fontSize="130px" viewBox="0 0 1500 400" y="70%" className="p-0 m-0 drop-shadow-2xl" />
+              <TypewriterTitle text="Manual Católico da Graça" fontSize="100px" viewBox="0 0 1500 400" y="70%" className="p-0 m-0 drop-shadow-2xl" />
             </div>
             {/* Subtítulo Adicionado */}
             <div className="mt-2 md:mt-8 px-4 text-center">
