@@ -11,7 +11,8 @@ export default function Cadastro() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://app-dev-mariano-2026.onrender.com/auth/magic-link", {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+      const response = await fetch(`${backendUrl}/auth/magic-link`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
