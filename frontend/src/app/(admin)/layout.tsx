@@ -19,6 +19,7 @@ const LayoutWithSidebar = ({ children }: { children: React.ReactNode }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [isSupportOpen, setIsSupportOpen] = useState(false); // Estado do Modal de Suporte
+  const [isUploading, setIsUploading] = useState(false); // NOVO ESTADO DE UPLOAD
 
   useEffect(() => {
     setIsMounted(true);
@@ -147,32 +148,63 @@ const LayoutWithSidebar = ({ children }: { children: React.ReactNode }) => {
             className="fixed top-0 left-0 h-full w-80 bg-[#1e293b]/95 backdrop-blur-xl border-r border-white/5 shadow-2xl z-40 flex flex-col pt-6 pb-6"
           >
             {/* Cabeçalho da Sidebar */}
+  // --- Componente Interno para a Sidebar e Conteúdo ---
+            const LayoutWithSidebar = ({children}: {children: React.ReactNode }) => {
+    const router = useRouter();
+            const {user, loading: userLoading, setUser } = useUser();
+
+            const [progressoTotal, setProgressoTotal] = useState(0);
+            const [modulos, setModulos] = useState<any[]>([]);
+            const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+            const [isMounted, setIsMounted] = useState(false);
+            const [isSupportOpen, setIsSupportOpen] = useState(false);
+            const [isUploading, setIsUploading] = useState(false); // NOVO ESTADO
+
+            // ... (useEffect e handleLogout mantidos, apenas reinserindo a função correta no contexto se necessário, 
+            // mas como replace_file_content substitui o bloco, preciso ter cuidado para não apagar o resto.
+            // VOU SUBSTITUIR APENAS A PARTE DO UPLOAD E A INICIALIZAÇÃO DO ESTADO)
+
+            // ... (Pular linhas não alteradas) ...
+
+            {/* Cabeçalho da Sidebar */}
             <div className="px-6 pb-6 border-b border-white/5 flex flex-col items-center space-y-4">
               <div className="relative group cursor-pointer">
                 {/* Visual Effects */}
                 <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full opacity-60 group-hover:opacity-100 blur transition duration-500"></div>
                 <div className="relative w-20 h-20 rounded-full border-4 border-[#1e293b] overflow-hidden">
+
+                  {/* SPINNER DE LOADING (Só aparece quando uploading) */}
+                  {isUploading && (
+                    <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-50">
+                      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-emerald-500"></div>
+                    </div>
+                  )}
+
                   <img
                     src={user?.profileImage?.startsWith('http') || user?.profileImage?.startsWith('data:') ? user.profileImage : (user?.profileImage ? `${process.env.NEXT_PUBLIC_BACKEND_URL}${user.profileImage}` : `https://ui-avatars.com/api/?name=${user?.name || 'User'}&background=10b981&color=fff`)}
                     alt="Avatar"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${isUploading ? 'blur-sm' : ''}`}
                   />
-                  {/* Overlay de Upload */}
-                  <label htmlFor="avatar-upload" className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </label>
+                  {/* Overlay de Upload (Escondido durante upload) */}
+                  {!isUploading && (
+                    <label htmlFor="avatar-upload" className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    </label>
+                  )}
                   <input
                     id="avatar-upload"
                     type="file"
                     accept="image/*"
                     className="hidden"
+                    disabled={isUploading}
                     onChange={async (e) => {
                       const file = e.target.files?.[0];
                       if (!file) return;
 
+                      setIsUploading(true); // INICIA LOADING
                       const formData = new FormData();
                       formData.append('profileImage', file);
 
@@ -184,19 +216,27 @@ const LayoutWithSidebar = ({ children }: { children: React.ReactNode }) => {
                           headers: { 'Authorization': `Bearer ${token}` },
                           body: formData
                         });
+
                         if (res.ok) {
                           const data = await res.json();
-                          // Atualiza o contexto SEM recarregar a página (SPA UX)
                           if (setUser) {
                             setUser((prev: any) => {
                               if (!prev) return prev;
-                              return { ...prev, profileImage: data.profileImage };
+                              return { ...prev, profileImage: data.profileImage }; // Force React Update
                             });
                           }
+                          // Limpa o input para permitir selecionar o mesmo arquivo se quiser
+                          e.target.value = '';
                         } else {
-                          alert("Erro ao enviar imagem.");
+                          const errData = await res.text();
+                          alert(`Erro ao enviar: ${errData}`);
                         }
-                      } catch (err) { console.error(err); alert("Erro ao enviar imagem."); }
+                      } catch (err) {
+                        console.error(err);
+                        alert("Erro de conexão ao enviar imagem.");
+                      } finally {
+                        setIsUploading(false); // PARA LOADING
+                      }
                     }}
                   />
                 </div>
