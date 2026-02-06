@@ -156,12 +156,7 @@ const LayoutWithSidebar = ({ children }: { children: React.ReactNode }) => {
                 <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full opacity-60 group-hover:opacity-100 blur transition duration-500"></div>
                 <div className="relative w-20 h-20 rounded-full border-4 border-[#1e293b] overflow-hidden">
 
-                  {/* SPINNER DE LOADING (Só aparece quando uploading) */}
-                  {isUploading && (
-                    <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-50">
-                      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-emerald-500"></div>
-                    </div>
-                  )}
+
 
                   <img
                     src={user?.profileImage?.startsWith('http') || user?.profileImage?.startsWith('data:') ? user.profileImage : (user?.profileImage ? `${process.env.NEXT_PUBLIC_BACKEND_URL}${user.profileImage}` : `https://ui-avatars.com/api/?name=${user?.name || 'User'}&background=10b981&color=fff`)}

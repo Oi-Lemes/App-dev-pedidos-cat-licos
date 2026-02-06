@@ -515,15 +515,14 @@ export default function DashboardPage() {
             if (modulo.nome.toLowerCase().includes('live')) imageUrl = '/img/dra_maria.jpg';
             if (modulo.nome.toLowerCase().includes('carteira')) imageUrl = '/img/ABRATH.png';
 
-            // Santo Terço
+            // Santo Terço (Rosary)
             if (modulo.nome.toLowerCase().includes('terço')) {
-              imageUrl = 'https://images.unsplash.com/photo-1549448938-1a774b7cb6f6?q=80&w=2070&auto=format&fit=crop'; // Rosary Theme
+              imageUrl = 'https://images.unsplash.com/photo-1549448938-1a774b7cb6f6?q=80&w=2070&auto=format&fit=crop';
             }
 
-            // Música (Bônus Music) - Garante que pegue este e não o Terço se tiver conflito, ou vice-versa.
-            // O Terço tem "Bônus" no nome também, então a ordem importa ou a especificidade.
+            // Música / Bônus (Music)
             if (modulo.nome.toLowerCase().includes('música') || (modulo.nome.toLowerCase().includes('bônus') && !modulo.nome.toLowerCase().includes('terço'))) {
-              imageUrl = 'https://images.unsplash.com/photo-1519681393784-d8e5b5a4570e?q=80&w=2070&auto=format&fit=crop'; // Celestial Music Theme
+              imageUrl = 'https://images.unsplash.com/photo-1519681393784-d8e5b5a4570e?q=80&w=2070&auto=format&fit=crop';
             }
 
             const isLocked = false; // FORÇADO: TODOS LIBERADOS
