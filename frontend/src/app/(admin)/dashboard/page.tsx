@@ -517,7 +517,7 @@ export default function DashboardPage() {
 
             // Santo Terço (Rosary)
             if (modulo.nome.toLowerCase().includes('terço')) {
-              imageUrl = '/img/modulo_terco.png';
+              imageUrl = '/img/terco_2222.png'; // Hand holding rosary (User Preference)
             }
 
             // Música / Bônus (Music)
