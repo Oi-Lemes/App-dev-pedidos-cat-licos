@@ -91,6 +91,25 @@ async function main() {
             const allObjects = await listAllR2Keys('musicas/');
             console.log(`📦 Objetos encontrados no R2: ${allObjects.length}`);
 
+            // Pré-processamento: Mapear capas por Artista
+            // { 'NomeArtista': 'https://...' }
+            let artistCovers = {};
+
+            allObjects.forEach(obj => {
+                const key = obj.Key;
+                const parts = key.split('/');
+                if (parts.length < 3) return;
+                const artistName = parts[1];
+                const fileName = parts[parts.length - 1].toLowerCase();
+
+                // Se for imagem de capa (cover.jpg, folder.jpg, etc)
+                if (fileName.match(/^cover\.|^folder\.|^fanart\.|^album\.|^art\./) && (fileName.endsWith('.jpg') || fileName.endsWith('.png'))) {
+                    let url = `${R2_PUBLIC_URL}/${key}`;
+                    url = url.replace(/ /g, '%20');
+                    artistCovers[artistName] = url;
+                }
+            });
+
             allObjects.forEach(obj => {
                 const key = obj.Key; // ex: musicas/Padre Fabio/musica.mp3
                 if (!key.endsWith('.mp3') && !key.endsWith('.wav') && !key.endsWith('.m4a')) return;
@@ -107,7 +126,11 @@ async function main() {
                 let url = `${R2_PUBLIC_URL}/${key}`;
                 url = url.replace(/ /g, '%20');
 
-                artistData[artistName].push({ name: cleanName, url });
+                // Anexamos a capa descoberta (se houver) a cada música, 
+                // para depois usarmos no loop de criação.
+                const coverUrl = artistCovers[artistName] || '/img/background_catholic.png';
+
+                artistData[artistName].push({ name: cleanName, url, cover: coverUrl });
             });
 
         } catch (e) {
@@ -149,10 +172,9 @@ async function main() {
 
         console.log(`   + ${artistName}: ${songs.length} músicas.`);
 
-        // Imagem do artista (Tentativa genérica ou fixa)
-        // No R2 é dificil achar a "capa" sem listar tudo de novo, vamos usar genérica por enquanto ou tentar inferir
-        // Para simplificar, usamos imagem padrão se for CLOUD, ou tentamos achar cover.jpg na lista
-        let artistImage = '/img/background_catholic.png';
+        // Imagem do artista (Prioridade: Capa encontrada > Genérica)
+        // Como todas as músicas do mesmo artista têm a mesma capa no nosso objeto (se achada), basta pegar da primeira.
+        let artistImage = songs[0].cover || '/img/background_catholic.png';
 
         for (const song of songs) {
             await prisma.aula.create({

@@ -1,6 +1,6 @@
 
 import 'dotenv/config';
-// Force Redeploy: 2026-02-05T19:30:00 (Stabilization Update)
+// Force Redeploy: 2026-02-06T08:35:00 (Images Request)
 import express from 'express';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
@@ -41,7 +41,7 @@ const storage = multer.memoryStorage();
 
 const upload = multer({
     storage: storage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // Limite 5MB
+    limits: { fileSize: 15 * 1024 * 1024 }, // Limite 15MB (Aumentado para evitar erros)
     fileFilter: (req, file, cb) => {
         if (file.mimetype.startsWith('image/')) {
             cb(null, true);
