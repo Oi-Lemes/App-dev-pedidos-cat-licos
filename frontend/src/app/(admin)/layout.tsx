@@ -150,6 +150,8 @@ const LayoutWithSidebar = ({ children }: { children: React.ReactNode }) => {
             {/* Cabeçalho da Sidebar */}
             <div className="px-6 pb-6 border-b border-white/5 flex flex-col items-center space-y-4">
               <div className="relative group cursor-pointer">
+
+
                 {/* Visual Effects */}
                 <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full opacity-60 group-hover:opacity-100 blur transition duration-500"></div>
                 <div className="relative w-20 h-20 rounded-full border-4 border-[#1e293b] overflow-hidden">
@@ -161,118 +163,107 @@ const LayoutWithSidebar = ({ children }: { children: React.ReactNode }) => {
                     </div>
                   )}
 
-                  {/* Visual Effects */}
-                  <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full opacity-60 group-hover:opacity-100 blur transition duration-500"></div>
-                  <div className="relative w-20 h-20 rounded-full border-4 border-[#1e293b] overflow-hidden">
+                  <img
+                    src={user?.profileImage?.startsWith('http') || user?.profileImage?.startsWith('data:') ? user.profileImage : (user?.profileImage ? `${process.env.NEXT_PUBLIC_BACKEND_URL}${user.profileImage}` : `https://ui-avatars.com/api/?name=${user?.name || 'User'}&background=10b981&color=fff`)}
+                    alt="Avatar"
+                    className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${isUploading ? 'blur-sm' : ''}`}
+                  />
+                  {/* Overlay de Upload (Escondido durante upload) */}
+                  {!isUploading && (
+                    <label htmlFor="avatar-upload" className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    </label>
+                  )}
+                  <input
+                    id="avatar-upload"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    disabled={isUploading}
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
 
-                    {/* SPINNER DE LOADING (Só aparece quando uploading) */}
-                    {isUploading && (
-                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-50">
-                        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-emerald-500"></div>
-                      </div>
-                    )}
+                      setIsUploading(true); // INICIA LOADING
+                      const formData = new FormData();
+                      formData.append('profileImage', file);
 
-                    <img
-                      src={user?.profileImage?.startsWith('http') || user?.profileImage?.startsWith('data:') ? user.profileImage : (user?.profileImage ? `${process.env.NEXT_PUBLIC_BACKEND_URL}${user.profileImage}` : `https://ui-avatars.com/api/?name=${user?.name || 'User'}&background=10b981&color=fff`)}
-                      alt="Avatar"
-                      className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${isUploading ? 'blur-sm' : ''}`}
-                    />
-                    {/* Overlay de Upload (Escondido durante upload) */}
-                    {!isUploading && (
-                      <label htmlFor="avatar-upload" className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                      </label>
-                    )}
-                    <input
-                      id="avatar-upload"
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      disabled={isUploading}
-                      onChange={async (e) => {
-                        const file = e.target.files?.[0];
-                        if (!file) return;
+                      try {
+                        const token = localStorage.getItem('token');
+                        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+                        const res = await fetch(`${backendUrl}/upload-profile-image`, {
+                          method: 'POST',
+                          headers: { 'Authorization': `Bearer ${token}` },
+                          body: formData
+                        });
 
-                        setIsUploading(true); // INICIA LOADING
-                        const formData = new FormData();
-                        formData.append('profileImage', file);
-
-                        try {
-                          const token = localStorage.getItem('token');
-                          const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-                          const res = await fetch(`${backendUrl}/upload-profile-image`, {
-                            method: 'POST',
-                            headers: { 'Authorization': `Bearer ${token}` },
-                            body: formData
-                          });
-
-                          if (res.ok) {
-                            const data = await res.json();
-                            if (setUser) {
-                              setUser((prev: any) => {
-                                if (!prev) return prev;
-                                return { ...prev, profileImage: data.profileImage }; // Force React Update
-                              });
-                            }
-                            // Limpa o input para permitir selecionar o mesmo arquivo se quiser
-                            e.target.value = '';
-                          } else {
-                            const errData = await res.text();
-                            alert(`Erro ao enviar: ${errData}`);
+                        if (res.ok) {
+                          const data = await res.json();
+                          if (setUser) {
+                            setUser((prev: any) => {
+                              if (!prev) return prev;
+                              return { ...prev, profileImage: data.profileImage }; // Force React Update
+                            });
                           }
-                        } catch (err) {
-                          console.error(err);
-                          alert("Erro de conexão ao enviar imagem.");
-                        } finally {
-                          setIsUploading(false); // PARA LOADING
+                          // Limpa o input para permitir selecionar o mesmo arquivo se quiser
+                          e.target.value = '';
+                        } else {
+                          const errData = await res.text();
+                          alert(`Erro ao enviar: ${errData}`);
                         }
-                      }}
-                    />
-                  </div>
-                </div>
-
-                <div className="text-center">
-                  <h2 className="text-lg font-bold text-white tracking-tight">{user?.name || 'Visitante'}</h2>
-                  <p className="text-xs text-emerald-400 font-bold uppercase tracking-widest">{user?.plan || 'Plano Básico'}</p>
-                </div>
-
-                <div className="flex items-center gap-3 bg-[#0f172a]/50 px-4 py-2 rounded-full border border-white/5">
-                  <span className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">Progresso Geral</span>
-                  <ProgressCircle percentage={progressoTotal} />
+                      } catch (err) {
+                        console.error(err);
+                        alert("Erro de conexão ao enviar imagem.");
+                      } finally {
+                        setIsUploading(false); // PARA LOADING
+                      }
+                    }}
+                  />
                 </div>
               </div>
 
-              {/* Corpo da Sidebar (Botões) */}
-              <div className="flex-1 flex flex-col items-center justify-center p-6 space-y-4 overflow-y-auto">
-                <button
-                  onClick={() => router.push('/dashboard')}
-                  className="w-full px-6 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center gap-3 group"
-                >
-                  <span className="text-xl group-hover:scale-110 transition-transform">🏠</span>
-                  <span className="uppercase tracking-widest text-xs">Ir para Dashboard</span>
-                </button>
-
-                <button
-                  onClick={() => setIsSupportOpen(true)}
-                  className="group relative w-full px-6 py-4 bg-[#0f172a] hover:bg-[#334155] border border-amber-500/30 hover:border-amber-500/60 rounded-xl transition-all duration-300 shadow-lg hover:shadow-amber-500/10 flex flex-col items-center gap-1"
-                >
-                  <span className="text-2xl mb-1 group-hover:scale-110 transition-transform duration-300">💬</span>
-                  <span className="uppercase tracking-[0.2em] text-xs font-bold text-amber-50 group-hover:text-amber-400">Suporte VIP</span>
-                </button>
+              <div className="text-center">
+                <h2 className="text-lg font-bold text-white tracking-tight">{user?.name || 'Visitante'}</h2>
+                <p className="text-xs text-emerald-400 font-bold uppercase tracking-widest">{user?.plan || 'Plano Básico'}</p>
               </div>
 
-              {/* Rodapé da Sidebar (Logout) */}
-              <div className="px-6 pt-4 border-t border-white/5">
-                <button
-                  onClick={handleLogout}
-                  className="w-full flex items-center justify-center py-2 text-xs text-red-400/70 hover:text-red-400 transition-colors uppercase tracking-widest font-bold gap-2 hover:bg-red-900/10 rounded-lg"
-                >
-                  ✕ Encerrar Sessão
-                </button>
+              <div className="flex items-center gap-3 bg-[#0f172a]/50 px-4 py-2 rounded-full border border-white/5">
+                <span className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">Progresso Geral</span>
+                <ProgressCircle percentage={progressoTotal} />
               </div>
+            </div>
+
+            {/* Corpo da Sidebar (Botões) */}
+            <div className="flex-1 flex flex-col items-center justify-center p-6 space-y-4 overflow-y-auto">
+              <button
+                onClick={() => router.push('/dashboard')}
+                className="w-full px-6 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center gap-3 group"
+              >
+                <span className="text-xl group-hover:scale-110 transition-transform">🏠</span>
+                <span className="uppercase tracking-widest text-xs">Ir para Dashboard</span>
+              </button>
+
+              <button
+                onClick={() => setIsSupportOpen(true)}
+                className="group relative w-full px-6 py-4 bg-[#0f172a] hover:bg-[#334155] border border-amber-500/30 hover:border-amber-500/60 rounded-xl transition-all duration-300 shadow-lg hover:shadow-amber-500/10 flex flex-col items-center gap-1"
+              >
+                <span className="text-2xl mb-1 group-hover:scale-110 transition-transform duration-300">💬</span>
+                <span className="uppercase tracking-[0.2em] text-xs font-bold text-amber-50 group-hover:text-amber-400">Suporte VIP</span>
+              </button>
+            </div>
+
+            {/* Rodapé da Sidebar (Logout) */}
+            <div className="px-6 pt-4 border-t border-white/5">
+              <button
+                onClick={handleLogout}
+                className="w-full flex items-center justify-center py-2 text-xs text-red-400/70 hover:text-red-400 transition-colors uppercase tracking-widest font-bold gap-2 hover:bg-red-900/10 rounded-lg"
+              >
+                ✕ Encerrar Sessão
+              </button>
+            </div>
           </motion.aside>
         )}
       </AnimatePresence>
