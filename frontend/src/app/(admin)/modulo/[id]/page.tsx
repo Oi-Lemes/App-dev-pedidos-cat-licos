@@ -225,7 +225,7 @@ export default function ModuloPage() {
               >
                 <div className="aspect-square relative overflow-hidden">
                   <img
-                    src={`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001'}${artist.imagem}`}
+                    src={artist.imagem?.startsWith('http') || artist.imagem?.startsWith('data:') ? artist.imagem : `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001'}${artist.imagem}`}
                     alt={artist.name}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />

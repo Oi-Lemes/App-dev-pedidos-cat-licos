@@ -1,6 +1,6 @@
 
 import 'dotenv/config';
-// Force Redeploy: 2026-02-06T08:35:00 (Images Request)
+// Force Redeploy: 2026-02-06T08:45:00 (CORS & Images Fix)
 import express from 'express';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
@@ -142,22 +142,17 @@ const MOCK_MODULOS = [
 
 const app = express();
 
-app.use((req, res, next) => {
-    const origin = req.headers.origin;
-    // Allow any origin that matches our list OR allow all if simple reflection is preferred for now
-    // For "mudou nada" urgency, we will reflect ANY origin to ensure it works.
-    if (origin) {
-        res.setHeader('Access-Control-Allow-Origin', origin);
-    }
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,authorization');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-
-    if (req.method === 'OPTIONS') {
-        return res.sendStatus(200);
-    }
-    next();
-});
+app.use(cors({
+    origin: (origin, callback) => {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        // Allow any origin
+        return callback(null, true);
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['X-Requested-With', 'Content-Type', 'Authorization']
+}));
 
 app.use(express.json({ limit: '50mb' }));
 const PORT = process.env.PORT || 3001;
