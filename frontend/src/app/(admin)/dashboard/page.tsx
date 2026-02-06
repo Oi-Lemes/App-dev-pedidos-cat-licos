@@ -494,33 +494,37 @@ export default function DashboardPage() {
               destinationUrl = `/modulo/${modulo.id}/aula/${modulo.aulas[0].id}`;
             }
             // Lógica de Imagem (Backend vs Placeholder)
-            const backendUrl = 'http://localhost:3001'; // FORCE PROD
-            let imageUrl = '/img/fundo.png';
+            const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+            let imageUrl = '/img/background_catholic.png'; // Fallback Padrão Católico
 
             if (modulo.imagem) {
               if (modulo.imagem.startsWith('/uploads')) {
                 imageUrl = `${backendUrl}${modulo.imagem}`;
+              } else if (modulo.imagem.startsWith('http')) {
+                imageUrl = modulo.imagem;
               } else {
                 imageUrl = modulo.imagem; // Caminho local (/img/...)
               }
             } else if ((modulo as any).capa) {
               imageUrl = (modulo as any).capa;
             }
-            // REMOVED LEGACY FALLBACK FOR HERBS IMAGES
 
-            // Override Quiz
+            // Overrides Específicos
             if (modulo.id === 102) imageUrl = '/img/modulo_quiz.png';
             if (modulo.nome.toLowerCase().includes('certificado')) imageUrl = '/img/md7.jpg';
             if (modulo.nome.toLowerCase().includes('live')) imageUrl = '/img/dra_maria.jpg';
             if (modulo.nome.toLowerCase().includes('carteira')) imageUrl = '/img/ABRATH.png';
 
-
-            if (modulo.nome.toLowerCase().includes('carteira')) imageUrl = '/img/ABRATH.png';
-            // Override Music Module to ensure the "Gift" theme appears immediately
-            if (modulo.nome.toLowerCase().includes('bônus') || modulo.nome.toLowerCase().includes('música')) {
-              imageUrl = 'https://images.unsplash.com/photo-1519681393784-d8e5b5a4570e?q=80&w=2070&auto=format&fit=crop'; // Beautiful dark/gold celestial image
+            // Santo Terço
+            if (modulo.nome.toLowerCase().includes('terço')) {
+              imageUrl = 'https://images.unsplash.com/photo-1549448938-1a774b7cb6f6?q=80&w=2070&auto=format&fit=crop'; // Rosary Theme
             }
 
+            // Música (Bônus Music) - Garante que pegue este e não o Terço se tiver conflito, ou vice-versa.
+            // O Terço tem "Bônus" no nome também, então a ordem importa ou a especificidade.
+            if (modulo.nome.toLowerCase().includes('música') || (modulo.nome.toLowerCase().includes('bônus') && !modulo.nome.toLowerCase().includes('terço'))) {
+              imageUrl = 'https://images.unsplash.com/photo-1519681393784-d8e5b5a4570e?q=80&w=2070&auto=format&fit=crop'; // Celestial Music Theme
+            }
 
             const isLocked = false; // FORÇADO: TODOS LIBERADOS
             const finalOnClick = undefined;
@@ -546,7 +550,7 @@ export default function DashboardPage() {
                     src={imageUrl}
                     alt={modulo.nome}
                     className={`w-full h-full object-cover object-center transform scale-[1.5] group-hover:scale-[1.6] transition-transform duration-700 ease-in-out ${shouldApplyGrayscale ? 'grayscale-[0.8] group-hover:grayscale-0' : ''}`}
-                    onError={(e) => { e.currentTarget.src = '/img/fundo.png'; }}
+                    onError={(e) => { e.currentTarget.src = '/img/background_catholic.png'; }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
                   {/* Overlay de Textura de Quadro (Simulação de Bordado/Ouro) */}
