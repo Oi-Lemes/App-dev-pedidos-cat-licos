@@ -425,7 +425,9 @@ app.post('/auth/login-phone', async (req, res) => {
 app.post('/webhook/paradise', async (req, res) => {
     const event = req.body;
     try {
-        const eventType = event.event || event.status;
+        console.log('[WEBHOOK RAW PAYLOAD]:', JSON.stringify(event, null, 2)); // Debug GGCheckout
+
+        const eventType = event.event || event.status || event.type; // GGCheckout usa 'event' ou 'type'?
         const product = event.product || {};
         const incomingHash = product.hash || product.id || event.product_hash || (event.tracking || {}).product_hash;
         const client = event.client || event.customer || {};
