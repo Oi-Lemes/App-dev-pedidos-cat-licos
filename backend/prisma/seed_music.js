@@ -147,15 +147,37 @@ async function main() {
     // Nome do Módulo Seguro
     const SINGLE_MODULE_NAME = 'Musicas Catolicas (Acervo Completissimo)';
 
-    let bigModule = await prisma.modulo.findFirst({ where: { nome: SINGLE_MODULE_NAME } });
+    // --- ALTERAÇÃO SOLICITADA: MUDANÇA DE NOME E CAPA DO MÓDULO DE MÚSICA ---
+    const NEW_MODULE_NAME = '🎁 Bônus - Música Católica';
+    const OLD_MODULE_NAME = 'Musicas Catolicas (Acervo Completissimo)';
+
+    // Tenta achar com o nome novo, se não achar, tenta com o antigo para renomear
+    let bigModule = await prisma.modulo.findFirst({
+        where: {
+            OR: [
+                { nome: NEW_MODULE_NAME },
+                { nome: OLD_MODULE_NAME }
+            ]
+        }
+    });
 
     if (!bigModule) {
+        // Se não existir nenhum dos dois, cria o novo
         bigModule = await prisma.modulo.create({
             data: {
-                nome: SINGLE_MODULE_NAME,
+                nome: NEW_MODULE_NAME,
                 description: 'Super coleção de músicas separadas por artista.',
                 ordem: 99,
-                imagem: 'https://pub-77eb37976e33436098256561219b6717.r2.dev/background_catholic.png' // URL Fixa ou local
+                imagem: 'https://cdn.pixabay.com/photo/2018/04/10/20/07/harp-3308569_1280.jpg' // Placeholder bonito de Harpa/Música
+            }
+        });
+    } else {
+        // Se existir (seja o velho ou o novo), ATUALIZA para garantir o nome e a imagem correta
+        bigModule = await prisma.modulo.update({
+            where: { id: bigModule.id },
+            data: {
+                nome: NEW_MODULE_NAME,
+                imagem: 'https://cdn.pixabay.com/photo/2018/04/10/20/07/harp-3308569_1280.jpg' // Placeholder bonito de Harpa/Música
             }
         });
     }

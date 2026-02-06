@@ -35,8 +35,8 @@ const fredoka = Fredoka({
 });
 
 export const metadata = {
-  title: 'Área de Membros',
-  description: 'Acesso exclusivo para membros do curso.',
+  title: 'Manual Católico da Graça',
+  description: 'Acesso exclusivo para membros do Manual Católico da Graça.',
   icons: {
     icon: '/icon.jpg',
   },
