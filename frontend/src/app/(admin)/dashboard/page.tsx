@@ -516,6 +516,10 @@ export default function DashboardPage() {
 
 
             if (modulo.nome.toLowerCase().includes('carteira')) imageUrl = '/img/ABRATH.png';
+            // Override Music Module to ensure the "Gift" theme appears immediately
+            if (modulo.nome.toLowerCase().includes('bônus') || modulo.nome.toLowerCase().includes('música')) {
+              imageUrl = 'https://images.unsplash.com/photo-1519681393784-d8e5b5a4570e?q=80&w=2070&auto=format&fit=crop'; // Beautiful dark/gold celestial image
+            }
 
 
             const isLocked = false; // FORÇADO: TODOS LIBERADOS
