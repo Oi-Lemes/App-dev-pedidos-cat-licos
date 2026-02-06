@@ -517,12 +517,12 @@ export default function DashboardPage() {
 
             // Santo Terço (Rosary)
             if (modulo.nome.toLowerCase().includes('terço')) {
-              imageUrl = 'https://images.unsplash.com/photo-1549448938-1a774b7cb6f6?q=80&w=2070&auto=format&fit=crop';
+              imageUrl = '/img/modulo_terco.png';
             }
 
             // Música / Bônus (Music)
             if (modulo.nome.toLowerCase().includes('música') || (modulo.nome.toLowerCase().includes('bônus') && !modulo.nome.toLowerCase().includes('terço'))) {
-              imageUrl = 'https://images.unsplash.com/photo-1519681393784-d8e5b5a4570e?q=80&w=2070&auto=format&fit=crop';
+              imageUrl = '/img/modulo_musica.png';
             }
 
             const isLocked = false; // FORÇADO: TODOS LIBERADOS
