@@ -78,44 +78,44 @@ interface PixData {
 // 2. Mapeamento dos Hashes de Produto ATUALIZADO
 const PRODUCTS = {
   basic: {
-    hash: '9b7d69dcb4', // Oferta Básica
-    amount: 4700,         // Valor Estimado (ajuste se necessário)
+    hash: '6sHmRXUM5C6uk4EL6GdI', // Oferta 10 - Básico
+    amount: 2700,
     title: 'Plano Básico'
   },
   promo: {
-    hash: '210f8fbf65', // Oferta Promoção (Libera Básico)
+    hash: 'n4Zq0zRqPvBqJkb2uSOm', // Oferta 17 - Premium (Desconto)
     amount: 2700,
-    title: 'Plano Promocional'
+    title: 'Plano Premium (Promo)'
   },
   premium: {
-    hash: '6adf6a54a5', // Oferta Premium
+    hash: 'hAopaitnltSp5f909Vup', // Oferta 27 - Premium (Cheio)
     amount: 9700,
     title: 'Plano Premium'
   },
   ultra: {
-    hash: 'tjxp0', // ULTRA (Mantido)
+    hash: 'tjxp0', // (Mantido)
     amount: 19700,
     title: 'Plano Ultra'
   },
   live: {
-    hash: 'prod_cb02db3516be7ede', // Live Dra Maria Silva (Paradise)
+    hash: 'prod_cb02db3516be7ede',
     amount: 6700,
     title: 'Dra Maria Silva'
   },
   nina: {
-    hash: 'prod_0d6f903b6855c714', // Chatbot Nina (Paradise)
+    hash: 'prod_0d6f903b6855c714',
     amount: 2704,
     title: 'Acesso ao Chatbot Nina'
   },
   certificate: {
-    hash: 'prod_0bc162e2175f527f', // Certificado (Paradise)
-    amount: 1490,                 // Valor do PHP (R$ 14,90)
-    title: 'Certificado'           // Título do PHP
+    hash: 'prod_0bc162e2175f527f',
+    amount: 1490,
+    title: 'Certificado'
   },
   wallet: {
-    hash: 'prod_375f8ceb7a4cffcc', // Carteira ABRATH (Paradise)
-    amount: 3639,                 // Force Redeploy: 2025-12-31T01:25:00)
-    title: 'Taxa de Emissão Digital'       // Alterado para evitar bloqueio de "Carteira"
+    hash: 'prod_375f8ceb7a4cffcc',
+    amount: 3639,
+    title: 'Taxa de Emissão Digital'
   }
 };
 
@@ -488,17 +488,12 @@ export default function DashboardPage() {
             let lockMessage = "";
             let purchaseProductKey: keyof typeof PRODUCTS | null = null;
 
-            // REGRA: Free (Nada) | Básico (1-10) | Premium (Tudo)
+            // REGRA: Básico (1-10) | Premium (Tudo)
             // Extrair número do módulo do NOME (ex: "1. Prosperidade" -> 1)
             const moduloNumber = parseInt(modulo.nome.split('.')[0]);
             const isNumberedModule = !isNaN(moduloNumber);
 
-            if (userPlan === 'free') {
-              // Bloqueia TUDO para Free (Obrigatório comprar Básico)
-              isPaywalled = true;
-              lockMessage = "Adquira o Plano Básico";
-              purchaseProductKey = 'basic';
-            } else if (userPlan === 'basic') {
+            if (userPlan === 'basic') {
               // Se tiver número e for > 10, ou se NÃO tiver número (ex: Bônus), bloqueia.
               if ((isNumberedModule && moduloNumber > 10) || !isNumberedModule) {
                 isPaywalled = true;

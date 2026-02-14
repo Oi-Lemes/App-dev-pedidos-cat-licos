@@ -76,6 +76,15 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     fetchUser();
+
+    const handleFocus = () => {
+      fetchUser();
+    };
+
+    window.addEventListener('focus', handleFocus);
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+    };
   }, []);
 
   // O Provider devolve o seu "valor"
