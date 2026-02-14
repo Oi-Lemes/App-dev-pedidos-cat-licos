@@ -285,60 +285,24 @@ export default function DashboardPage() {
     return () => clearInterval(interval);
   }, []);
 
-  // 4. Função atualizada para o novo gateway (Paradise Pags)
+  // 4. Função atualizada: REDIRECIONAR PARA GGCHECKOUT (Oferta 27)
   const handleOpenPixModal = async (productKey: keyof typeof PRODUCTS) => {
-    const product = PRODUCTS[productKey];
-    if (!product || !user) {
-      alert("Produto inválido ou utilizador não autenticado.");
-      return;
+    // Lógica simplificada solicitada pelo usuário:
+    // "Quando clico em algum módulo trancado... ela automaticamente vai para o checkout de 27"
+
+    let targetHash = PRODUCTS.premium.hash; // Default: Paga o 27 (Premium)
+
+    if (productKey === 'basic') {
+      targetHash = PRODUCTS.basic.hash; // Oferta 10
     }
-    setIsLoadingPix(true);
-    setPaymentError('');
-    setProductKeyToBuy(productKey); // Guarda a chave do produto
-    const token = localStorage.getItem('token');
+    // Se for 'premium', 'nina', 'live' ou qualquer outro trancado -> Premium (27)
 
-    const paymentPayload = {
-      productHash: product.hash,
-      baseAmount: product.amount,
-      productTitle: product.title,
-      checkoutUrl: window.location.href
-    };
+    // Construção do Link GGCheckout
+    // Formato CORRETO (v5): https://ggcheckout.com.br/checkout/v5/{HASH}
+    const checkoutUrl = `https://ggcheckout.com.br/checkout/v5/${targetHash}`;
 
-    try {
-      const backendUrl = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_BACKEND_URL;
-
-      // LÓGICA DE DECISÃO DE ROTA
-      let endpoint = '/gerar-pix-paradise';
-      let payload = JSON.stringify(paymentPayload);
-
-      // SE FOR CERTIFICADO, USA O TÚNEL DEDICADO (CORREÇÃO DEFINITIVA)
-      if (productKey === 'certificate') {
-        endpoint = '/gerar-pix-certificado-final';
-        payload = JSON.stringify({}); // Backend ignora body nesta rota
-      }
-
-      const response = await fetch(`${backendUrl}${endpoint}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: payload,
-      });
-
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.error || 'Falha ao gerar o PIX.');
-
-      setPixData({
-        pix_qr_code: result.pix.pix_qr_code,
-        amount_paid: result.amount_paid,
-        expiration_date: result.pix.expiration_date,
-        hash: result.hash
-      });
-      setIsModalOpen(true);
-    } catch (error) {
-      console.error(error);
-      setPaymentError(error instanceof Error ? error.message : "Ocorreu um erro desconhecido.");
-    } finally {
-      setIsLoadingPix(false);
-    }
+    console.log(`Redirecionando para: ${checkoutUrl}`);
+    window.location.href = checkoutUrl;
   };
 
   // 5. Nova função de callback para o modal

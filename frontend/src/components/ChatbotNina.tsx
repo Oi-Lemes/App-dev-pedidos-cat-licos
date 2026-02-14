@@ -84,7 +84,7 @@ export default function ChatbotNina() {
     const handleUnlockClick = () => {
         // Redireciona direto para o Checkout da Oferta 27 (Premium)
         const premiumOfferHash = 'hAopaitnltSp5f909Vup';
-        const checkoutUrl = `https://checkout.ggcheckout.com.br/checkout/${premiumOfferHash}`;
+        const checkoutUrl = `https://ggcheckout.com.br/checkout/v5/${premiumOfferHash}`;
         window.location.href = checkoutUrl;
     };
 
