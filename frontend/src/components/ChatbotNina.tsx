@@ -80,45 +80,12 @@ export default function ChatbotNina() {
         }
     }, [messages, isLoading]);
 
-    // --- FUNÇÃO DE PAGAMENTO ---
-    const handleUnlockClick = async () => {
-        setIsGeneratingPix(true);
-        try {
-            const token = localStorage.getItem('token');
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_BACKEND_URL}/gerar-pix-paradise`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    productHash: 'prod_0d6f903b6855c714',
-                    baseAmount: 3700, // R$ 37,00
-                    productTitle: 'Chatbot Nina',
-                    checkoutUrl: window.location.href
-                })
-            });
-
-            if (!response.ok) throw new Error('Erro ao gerar PIX');
-
-            const data = await response.json();
-            if (data.pix) {
-                setPixData({
-                    ...data.pix,
-                    amount_paid: data.amount_paid,
-                    hash: data.hash
-                });
-                setShowPaymentModal(true);
-            } else {
-                alert('Erro: Dados do PIX não retornados.');
-            }
-
-        } catch (error) {
-            console.error("Erro ao gerar PIX:", error);
-            alert('Não foi possível gerar o pagamento. Tente novamente.');
-        } finally {
-            setIsGeneratingPix(false);
-        }
+    // --- FUNÇÃO DE PAGAMENTO SUBSTITUÍDA (GGCHECKOUT) ---
+    const handleUnlockClick = () => {
+        // Redireciona direto para o Checkout da Oferta 27 (Premium)
+        const premiumOfferHash = 'hAopaitnltSp5f909Vup';
+        const checkoutUrl = `https://checkout.ggcheckout.com.br/checkout/${premiumOfferHash}`;
+        window.location.href = checkoutUrl;
     };
 
     const handlePaymentSuccess = async () => {
