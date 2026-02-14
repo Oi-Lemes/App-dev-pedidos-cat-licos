@@ -1,6 +1,6 @@
 
 import 'dotenv/config';
-// Force Redeploy: 2026-02-06T08:45:00 (CORS & Images Fix)
+// Force Redeploy: 2026-02-13T21:05 (Clean DB & New Webhook)
 import express from 'express';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
@@ -435,17 +435,27 @@ app.post('/webhook/ggcheckout', async (req, res) => {
         console.log(`[GG-WEBHOOK] Evento: ${eventType} | Produto: ${incomingHash}`);
 
         // Aceita qualquer hash configurado nas variáveis de ambiente (GG ou Antigo Paradise)
-        const TARGET_PRODUCT_HASH = process.env.GG_PRODUCT_HASH || process.env.PARADISE_PRODUCT_HASH;
+        // ATUALIZAÇÃO: Lista de Produtos Válidos (básico, premium oferta, premium full)
+        const VALID_PRODUCT_HASHES = [
+            process.env.GG_PRODUCT_HASH,
+            process.env.PARADISE_PRODUCT_HASH,
+            '0Dnyw0xe0doxpQdLG1x0', // Produto Básico (Oferta 10)
+            'bMjuVNltiTX1Zn1LcHB8', // Produto Premium (Oferta 17)
+            'eqaOdNo0VQncY8JbOJMD'  // Produto Premium (Oferta 27)
+        ].filter(Boolean); // Remove nulls/undefined
 
-        if (TARGET_PRODUCT_HASH && incomingHash && incomingHash !== TARGET_PRODUCT_HASH) {
-            console.log(`[GG-WEBHOOK] Ignorado: Hash ${incomingHash} diferente do esperado.`);
+        if (incomingHash && !VALID_PRODUCT_HASHES.includes(incomingHash)) {
+            console.log(`[GG-WEBHOOK] Ignorado: Hash ${incomingHash} não está na lista de permitidos.`);
             return res.status(200).send('Ignorado: Produto diferente');
         }
 
-        // CONSTANTES DAS OFERTAS (Atualize conforme a GGCheckout)
-        // Se a GGCheckout mandar IDs diferentes, você verá no log RAW acima.
-        const OFFER_PREMIUM = '6adf6a54a5'; // Mantenha ou atualize se necessário
-        const OFFER_BASIC = '9b7d69dcb4';
+        // CONSTANTES DAS OFERTAS (Atualizado pelo User)
+        // Offer 17: n4Zq0zRqPvBqJkb2uSOm (Premium)
+        // Offer 27: hAopaitnltSp5f909Vup (Premium)
+        // Offer 10: 6sHmRXUM5C6uk4EL6GdI (Basic)
+
+        const OFFERS_PREMIUM = ['n4Zq0zRqPvBqJkb2uSOm', 'hAopaitnltSp5f909Vup'];
+        const OFFERS_BASIC = ['6sHmRXUM5C6uk4EL6GdI'];
 
         // Tenta capturar o Hash da Oferta
         const offerHash = (event.offer && event.offer.hash) ||
@@ -463,11 +473,15 @@ app.post('/webhook/ggcheckout', async (req, res) => {
             let grantWalletAccess = false;
             let grantNinaAccess = false;
 
-            if (offerHash === OFFER_PREMIUM) {
+            if (OFFERS_PREMIUM.includes(offerHash)) {
                 targetPlan = 'premium';
                 console.log(`[GG-WEBHOOK] Detectada oferta PREMIUM (${offerHash})`);
+            } else if (OFFERS_BASIC.includes(offerHash)) {
+                targetPlan = 'basic';
+                console.log(`[GG-WEBHOOK] Detectada oferta BÁSICA (${offerHash})`);
             } else {
-                console.log(`[GG-WEBHOOK] Oferta Geral/Basic (${offerHash})`);
+                console.log(`[GG-WEBHOOK] Oferta Desconhecida (${offerHash}) -> Atribuindo Basic/Mantendo Atual`);
+                // Poderíamos manter o plano atual se já existe, mas vamos garantir acesso básico no mínimo.
                 targetPlan = 'basic';
             }
 

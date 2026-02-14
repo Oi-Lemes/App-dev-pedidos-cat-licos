@@ -483,10 +483,24 @@ export default function DashboardPage() {
             const progressPercentage = progressoModulos[modulo.id] ?? 0;
             const isCompleted = progressPercentage >= 100;
 
-            // Lógica de Paywall: DESATIVADA - TODOS LIBERADOS
+            // Lógica de Paywall: ATIVADA POR PLANO
             let isPaywalled = false;
             let lockMessage = "";
             let purchaseProductKey: keyof typeof PRODUCTS | null = null;
+
+            // REGRA: Básico (1-10) | Premium (Tudo)
+            // Extrair número do módulo do NOME (ex: "1. Prosperidade" -> 1)
+            const moduloNumber = parseInt(modulo.nome.split('.')[0]);
+            const isNumberedModule = !isNaN(moduloNumber);
+
+            if (userPlan === 'basic') {
+              // Se tiver número e for > 10, ou se NÃO tiver número (ex: Bônus), bloqueia.
+              if ((isNumberedModule && moduloNumber > 10) || !isNumberedModule) {
+                isPaywalled = true;
+                lockMessage = "Disponível no Plano Premium";
+                purchaseProductKey = 'premium';
+              }
+            }
 
             let destinationUrl = `/modulo/${modulo.id}`;
             // If module has exactly one lesson, link directly to it (skip list page)
@@ -510,10 +524,10 @@ export default function DashboardPage() {
             }
 
             // Overrides Específicos
-            if (modulo.id === 102) imageUrl = '/img/modulo_quiz.png';
+            // if (modulo.id === 102) imageUrl = '/img/modulo_quiz.png'; // REMOVIDO: Quiz não existe mais
             if (modulo.nome.toLowerCase().includes('certificado')) imageUrl = '/img/md7.jpg';
             if (modulo.nome.toLowerCase().includes('live')) imageUrl = '/img/dra_maria.jpg';
-            if (modulo.nome.toLowerCase().includes('carteira')) imageUrl = '/img/ABRATH.png';
+            // if (modulo.nome.toLowerCase().includes('carteira')) imageUrl = '/img/ABRATH.png'; // REMOVIDO: Carteira não existe mais
 
             // Santo Terço (Rosary)
             if (modulo.nome.toLowerCase().includes('terço')) {
@@ -525,8 +539,17 @@ export default function DashboardPage() {
               imageUrl = '/img/modulo_musica.png';
             }
 
-            const isLocked = false; // FORÇADO: TODOS LIBERADOS
-            const finalOnClick = undefined;
+            // Se for paywalled, sobrescreve qualquer logica de locked
+            const isLocked = isLockedByProgress && !isPaywalled;
+
+            const finalOnClick = (e: React.MouseEvent) => {
+              if (isPaywalled && purchaseProductKey) {
+                e.preventDefault();
+                handleOpenPixModal(purchaseProductKey);
+              } else if (isLocked) {
+                e.preventDefault();
+              }
+            };
 
             // Classes Dinâmicas:
             const isSpecialModule = modulo.id >= 90;
@@ -534,9 +557,9 @@ export default function DashboardPage() {
 
             const linkClassName = `group relative block rounded-lg overflow-hidden transition-all duration-500 transform 
             ${isPaywalled
-                ? 'cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/40'
+                ? 'cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/40 ring-4 ring-amber-500/20'
                 : isLocked
-                  ? 'cursor-not-allowed' // Bloqueado: Cor original, apenas cursor indica bloqueio
+                  ? 'cursor-not-allowed opacity-80'
                   : isCompleted
                     ? 'hover:scale-105 hover:shadow-xl hover:shadow-emerald-500/20 opacity-90 hover:opacity-100 ring-2 ring-emerald-500/30'
                     : 'hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/40' // Normal

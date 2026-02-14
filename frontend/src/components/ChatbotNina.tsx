@@ -317,9 +317,22 @@ export default function ChatbotNina() {
         }
     };
 
-    // --- BUTTON CLICK LOGIC (SIMPLIFIED - TODOS TÊM ACESSO) ---
+    // --- LÓGICA DE BLOQUEIO (BASIC vs PREMIUM) ---
     const handleButtonClick = () => {
-        setIsOpen(prev => !prev);
+        // Se for PREMIUM ou tiver acesso Nina explicito, abre.
+        // Se for BASIC, abre o modal de pagamento.
+        const canAccess = user?.plan === 'premium' || user?.plan === 'ultra' || user?.hasNinaAccess || FREE_NINA_BETA;
+
+        if (canAccess) {
+            setIsOpen(prev => !prev);
+        } else {
+            // Abre Modal de Pagamento da Nina
+            // handleUnlockClick(); 
+            // Como Nina é Premium, talvez devêssemos ofertar o Premium?
+            // Mas o código já tem `handleUnlockClick` que vende Nina avulsa ou Premium?
+            // Vou manter a chamada original que parece vender "Chatbot Nina" avulso ou similar.
+            handleUnlockClick();
+        }
     };
 
     return (
@@ -342,8 +355,16 @@ export default function ChatbotNina() {
                             <img
                                 src="/freira.png"
                                 alt="Chat com Irmã Dulce"
-                                className="w-full h-full rounded-full object-cover border-2 border-white/50"
+                                className={`w-full h-full rounded-full object-cover border-2 border-white/50 ${(!user?.hasNinaAccess && user?.plan === 'basic' && !FREE_NINA_BETA) ? 'grayscale' : ''}`}
                             />
+                            {/* Cadeado para Basic Users */}
+                            {(!user?.hasNinaAccess && user?.plan === 'basic' && !FREE_NINA_BETA) && (
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-full">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-amber-400 drop-shadow-md" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                                    </svg>
+                                </div>
+                            )}
                         </div>
                     )}
 
