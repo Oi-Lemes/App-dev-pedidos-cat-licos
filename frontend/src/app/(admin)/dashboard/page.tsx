@@ -297,9 +297,16 @@ export default function DashboardPage() {
     }
     // Se for 'premium', 'nina', 'live' ou qualquer outro trancado -> Premium (27)
 
-    // Construção do Link GGCheckout
-    // Formato CORRETO (v5): https://ggcheckout.com.br/checkout/v5/{HASH}
-    const checkoutUrl = `https://ggcheckout.com.br/checkout/v5/${targetHash}`;
+    // Construção do Link GGCheckout com Pré-Preenchimento
+    // Formato CORRETO (v5): https://ggcheckout.com.br/checkout/v5/{HASH}?email={...}&name={...}&phone={...}
+
+    const params = new URLSearchParams();
+    if (user?.email) params.append('email', user.email);
+    if (user?.name) params.append('name', user.name);
+    // Remove caracteres não numéricos do telefone pra evitar erro
+    if (user?.phone) params.append('phone', user.phone.replace(/\D/g, ''));
+
+    const checkoutUrl = `https://ggcheckout.com.br/checkout/v5/${targetHash}?${params.toString()}`;
 
     console.log(`Redirecionando para: ${checkoutUrl}`);
     window.location.href = checkoutUrl;
