@@ -488,12 +488,17 @@ export default function DashboardPage() {
             let lockMessage = "";
             let purchaseProductKey: keyof typeof PRODUCTS | null = null;
 
-            // REGRA: Básico (1-10) | Premium (Tudo)
+            // REGRA: Free (Nada) | Básico (1-10) | Premium (Tudo)
             // Extrair número do módulo do NOME (ex: "1. Prosperidade" -> 1)
             const moduloNumber = parseInt(modulo.nome.split('.')[0]);
             const isNumberedModule = !isNaN(moduloNumber);
 
-            if (userPlan === 'basic') {
+            if (userPlan === 'free') {
+              // Bloqueia TUDO para Free (Obrigatório comprar Básico)
+              isPaywalled = true;
+              lockMessage = "Adquira o Plano Básico";
+              purchaseProductKey = 'basic';
+            } else if (userPlan === 'basic') {
               // Se tiver número e for > 10, ou se NÃO tiver número (ex: Bônus), bloqueia.
               if ((isNumberedModule && moduloNumber > 10) || !isNumberedModule) {
                 isPaywalled = true;

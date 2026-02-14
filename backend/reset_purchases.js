@@ -6,7 +6,7 @@ async function main() {
 
     const result = await prisma.user.updateMany({
         data: {
-            plan: 'basic',
+            plan: 'free', // Reset to Free (No Access)
             hasLiveAccess: false,
             hasNinaAccess: false,
             hasWalletAccess: false,
@@ -14,7 +14,7 @@ async function main() {
         }
     });
 
-    console.log(`✅ Reset ${result.count} users to Basic Plan.`);
+    console.log(`✅ Reset ${result.count} users to FREE Plan.`);
 }
 
 main()
