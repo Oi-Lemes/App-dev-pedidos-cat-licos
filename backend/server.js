@@ -450,12 +450,13 @@ app.post('/webhook/ggcheckout', async (req, res) => {
         }
 
         // CONSTANTES DAS OFERTAS (Atualizado pelo User)
-        // Offer 17: n4Zq0zRqPvBqJkb2uSOm (Premium)
-        // Offer 27: hAopaitnltSp5f909Vup (Premium)
-        // Offer 10: 6sHmRXUM5C6uk4EL6GdI (Basic)
+        // Offer 17: n4Zq0zRqPvBqJkb2uSOm (Premium) | Prod: bMjuVNltiTX1Zn1LcHB8
+        // Offer 27: hAopaitnltSp5f909Vup (Premium) | Prod: eqaOdNo0VQncY8JbOJMD
+        // Offer 10: 6sHmRXUM5C6uk4EL6GdI (Basic)   | Prod: 0Dnyw0xe0doxpQdLG1x0
 
-        const OFFERS_PREMIUM = ['n4Zq0zRqPvBqJkb2uSOm', 'hAopaitnltSp5f909Vup'];
-        const OFFERS_BASIC = ['6sHmRXUM5C6uk4EL6GdI'];
+        // ADICIONEI OS HASHES DE PRODUTO TAMBÉM PRA GARANTIR
+        const OFFERS_PREMIUM = ['n4Zq0zRqPvBqJkb2uSOm', 'hAopaitnltSp5f909Vup', 'bMjuVNltiTX1Zn1LcHB8', 'eqaOdNo0VQncY8JbOJMD'];
+        const OFFERS_BASIC = ['6sHmRXUM5C6uk4EL6GdI', '0Dnyw0xe0doxpQdLG1x0'];
 
         // Tenta capturar o Hash da Oferta
         const offerHash = (event.offer && event.offer.hash) ||
