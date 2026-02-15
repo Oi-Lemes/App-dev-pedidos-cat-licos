@@ -1050,18 +1050,26 @@ async function main() {
         };
       }
 
-      await prisma.aula.create({
-        data: {
-          nome: prayerData.nome,
-          descricao: prayerData.descricao,
-          content: prayerData.content,
-          videoUrl: '/img/background.png',
-          imagem: (i === 0) ? (prayerData.imagem || modData.imagem) : modData.imagem, // Mod 1: específico. Outros: Usa a capa do PRÓPRIO módulo.
-          isImage: true,
-          ordem: j + 1,
-          moduloId: modulo.id,
-        },
-      });
+      console.log(`   -> Criando aula ${j + 1}/${items.length}: ${prayerData.nome} (Mod ID: ${modulo.id})`);
+      try {
+        await prisma.aula.create({
+          data: {
+            nome: prayerData.nome,
+            descricao: prayerData.descricao,
+            content: prayerData.content,
+            videoUrl: '/img/background.png',
+            imagem: (i === 0) ? (prayerData.imagem || modData.imagem) : modData.imagem, // Mod 1: específico. Outros: Usa a capa do PRÓPRIO módulo.
+            isImage: true,
+            ordem: j + 1,
+            moduloId: modulo.id,
+          },
+        });
+      } catch (err) {
+        console.error(`❌ FALHA AO CRIAR AULA: ${prayerData.nome}`);
+        console.error(`   Modulo ID: ${modulo.id}`);
+        console.error(`   Erro: ${err.message}`);
+        throw err; // Re-throw to stop
+      }
     }
   }
 
