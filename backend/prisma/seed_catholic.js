@@ -987,7 +987,7 @@ async function main() {
   await prisma.progresso.deleteMany({});
 
   // Protegendo o Módulo de Músicas
-  const musicModName = 'Musicas Catolicas (Acervo Completissimo)';
+  const musicModName = '🎁 Bônus - Música Católica';
 
   // Deletar aulas que NÃO são do módulo de música
   await prisma.aula.deleteMany({
