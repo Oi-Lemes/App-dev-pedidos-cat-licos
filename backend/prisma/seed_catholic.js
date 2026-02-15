@@ -541,62 +541,162 @@ const PRAYERS = {
     imagem: '/img/multiplicacao.png',
     content: `**Oração inspirada no Milagre dos Pães**\n\nSenhor Jesus, que multiplicastes cinco pães e dois peixes para alimentar a multidão faminta, olhai para a minha necessidade. Abençoai o pouco que tenho para que nunca falte o necessário em minha mesa e para que eu possa também partilhar com quem precisa. Eu confio na vossa generosidade infinita.`
   },
-  // --- SALMOS ---
-  salmo_23: {
-    nome: 'Salmo 23',
-    descricao: 'O Bom Pastor',
-    imagem: '/img/salmo_23.png',
-    content: `**Salmo 23 (22)**\n\n1. O Senhor é o meu pastor, nada me faltará.\n2. Em verdes prados ele me faz repousar. Conduz-me junto às águas refrescantes,\n3. Restaura as forças de minha alma. Pelos caminhos retos ele me leva, por amor do seu nome.\n4. Ainda que eu atravesse o vale escuro, nada temerei, pois estais comigo. Vosso bordão e vosso báculo são o meu amparo.\n5. Preparais para mim a mesa à vista de meus inimigos. Derramais o óleo em minha cabeça e meu cálice transborda.\n6. A felicidade e a graça vão acompanhar-me todos os dias da minha vida e vou habitar na casa do Senhor por longos dias.`
+  // --- NOVAS ORAÇÕES DE SANTOS (SUBSTITUINDO SALMOS) ---
+  santo_homobono: {
+    nome: 'Santo Homobono',
+    descricao: 'Negócios e Trabalho',
+    content: `**Oração a Santo Homobono**\n\nGlorioso Santo Homobono, pai dos pobres e consolador dos aflitos, que com o suor do vosso rosto ganhastes o pão e com vossas esmolas ganhaste o Céu. Olhai para a minha vida profissional e financeira. Ajudai-me a gerir meus negócios com honestidade e prosperidade, para que nunca falte o sustento em meu lar e eu possa ajudar os necessitados.`
   },
-  salmo_144: {
-    nome: 'Salmo 144',
-    descricao: 'Prosperidade',
-    imagem: '/img/salmo_144.png',
-    content: `**Salmo 144 (143)**\n\n1. Bendito seja o Senhor, meu rochedo, que adestra minhas mãos para o combate, e meus dedos para a guerra.\n2. Meu protetor e meu rei, meu baluarte e libertador, meu escudo e meu refúgio, que os povos me sujeita.\n3. Senhor, que é o homem para dele cuidardes, o ser humano para que vos ocupeis com ele?\n12. Que nossos filhos sejam como plantas crescidas na sua juventude; nossas filhas, como colunas angulares, esculpidas como as de um palácio.\n13. Nossos celeiros estejam cheios, transbordando de toda espécie de provisões; nossos rebanhos se multipliquem aos milhares pelos nossos campos.\n15. Feliz o povo a quem assim sucede! Feliz o povo cujo Deus é o Senhor!`
+  sao_mateus: {
+    nome: 'São Mateus',
+    descricao: 'Sabedoria Financeira',
+    content: `**Oração a São Mateus**\n\nSão Mateus, que deixastes a banca de impostos para seguir a Jesus, ensinai-me a não me apegar ao dinheiro, mas a usá-lo com sabedoria para o bem. Intercedei por mim para que eu tenha clareza nas minhas finanças, pague o que devo e viva com dignidade e justiça.`
   },
-  salmo_34: {
-    nome: 'Salmo 34',
-    descricao: 'Bendirei',
-    imagem: '/img/salmo_34.png',
-    content: `**Salmo 34 (33)**\n\n2. Bendirei o Senhor em todo o tempo, seu louvor estará sempre na minha boca.\n3. Minha alma se gloria no Senhor; que os humildes me ouçam e se alegrem.\n5. Busquei o Senhor e ele me respondeu, e de todos os meus temores me livrou.\n6. Olhai para ele e sereis iluminados, e os vossos rostos não ficarão envergonhados.\n8. O anjo do Senhor acampa em redor dos que o temem, e os salva.\n9. Provai e vede como o Senhor é bom; feliz o homem que nele se refugia.`
+  sao_josemaria: {
+    nome: 'São Josemaria Escrivá',
+    descricao: 'Santificação do Trabalho',
+    content: `**Oração pelo Trabalho**\n\nDeus, que criastes o mundo e destes o trabalho ao homem como bênção, fazei que eu realize minha tarefa de hoje com perfeição e amor, transformando minha mesa de trabalho em altar. Que meu esforço seja oração e que meus frutos sejam para Vossa glória.`
   },
-  salmo_128: {
-    nome: 'Salmo 128',
-    descricao: 'Trabalho',
-    content: `**Salmo 128 (127)**\n\n1. Feliz és tu que temes o Senhor e trilhas os seus caminhos.\n2. Do trabalho de tuas mãos hás de viver, serás feliz, tudo irá bem!\n3. A tua esposa será como a videira fecunda no interior da tua casa; teus filhos, como rebentos de oliveira ao redor da tua mesa.\n4. Assim será abençoado o homem que teme o Senhor.\n5. De Sião te abençoe o Senhor! Vejas a prosperidade de Jerusalém todos os dias da tua vida.\n6. Vejas os filhos de teus filhos. Paz sobre Israel!`
+  sao_nicolau: {
+    nome: 'São Nicolau',
+    descricao: 'Providência Urgente',
+    content: `**Súplica a São Nicolau**\n\nÓ bondoso São Nicolau, que socorrestes as filhas do homem pobre para salvá-las da indignidade, olhai para a minha necessidade urgente (fazer o pedido). Providenciai, por vossa intercessão, os meios que preciso para viver em paz e segurança.`
   },
-  salmo_91: {
-    nome: 'Salmo 91',
-    descricao: 'Refúgio',
-    content: `**Salmo 91 (90)**\n\n1. Tu que habitas sob a proteção do Altíssimo, que moras à sombra do Onipotente,\n2. dize ao Senhor: "Sois meu refúgio e minha cidadela, meu Deus, em que eu confio".\n3. É ele quem te livrará do laço do caçador, e da peste perniciosa.\n4. Ele te cobrirá com suas plumas, sob suas asas acharás refúgio. Sua fidelidade te será um escudo de proteção.\n7. Cairão mil ao teu lado e dez mil à tua direita; tu não serás atingido.\n11. Porque aos seus anjos ele mandou que te guardem em todos os teus caminhos.\n12. Eles te sustentarão em suas mãos, para que não tropeces em alguma pedra.`
+  couraca_sao_patricio: {
+    nome: 'Couraça de São Patrício',
+    descricao: 'Proteção Total',
+    content: `**Couraça de São Patrício (Trecho)**\n\nCristo comigo, Cristo à minha frente, Cristo atrás de mim, Cristo em mim, Cristo abaixo de mim, Cristo acima de mim. Cristo à minha direita, Cristo à minha esquerda. Cristo quando me deito, Cristo quando me sento, Cristo quando me levanto. Cristo no coração de todos os que pensam em mim, Cristo na boca de todos os que falam de mim.`
   },
-  salmo_37: {
-    nome: 'Salmo 37',
-    descricao: 'Confiança',
-    content: `**Salmo 37 (36)**\n\n1. Não te irrites por causa dos maus, nem invejes os que praticam a iniquidade.\n3. Confia no Senhor e faze o bem; habitarás na terra e viverás tranquilo.\n4. Põe tuas delícias no Senhor, e ele satisfará os desejos do teu coração.\n5. Entrega o teu caminho ao Senhor, confia nele, e ele agirá.\n7. Descansa no Senhor e espera nele; não te irrites com aquele que prospera em seu caminho.\n11. Os mansos herdarão a terra, e se deleitarão na abundância de paz.`
+  sao_bras: {
+    nome: 'São Brás',
+    descricao: 'Livrai-nos dos Males',
+    content: `**Bênção de São Brás**\n\nPor intercessão de São Brás, Bispo e Mártir, livre-te Deus do mal da garganta e de qualquer outra doença. Em nome do Pai, e do Filho, e do Espírito Santo. Amém.`
   },
-  salmo_112: {
-    nome: 'Salmo 112',
-    descricao: 'Justo',
-    content: `**Salmo 112 (111)**\n\n1. Feliz o homem que teme o Senhor e põe o seu prazer em observar os seus mandamentos.\n2. Sua descendência será poderosa na terra; a posteridade dos homens retos será abençoada.\n3. Na sua casa haverá prosperidade e riqueza, e a sua justiça permanecerá para sempre.\n4. Para os retos ele se levanta nas trevas como luz; é clemente, misericordioso e justo.\n7. Não temerá más notícias; seu coração está firme, confiante no Senhor.`
+  santa_luzia: {
+    nome: 'Santa Luzia',
+    descricao: 'Luz e Visão',
+    content: `**Oração a Santa Luzia**\n\nÓ Santa Luzia, que preferistes que vossos olhos fossem vazados a negar a fé, conservai e aumentai a minha fé. Curai meus olhos físicos e iluminai meus olhos espirituais, para que eu veja as maravilhas de Deus em minha vida.`
   },
-  salmo_113: {
-    nome: 'Salmo 113',
-    descricao: 'Louvai',
-    content: `**Salmo 113 (112)**\n\n1. Louvai, servos do Senhor, louvai o nome do Senhor.\n2. Bendito seja o nome do Senhor, desde agora e para sempre.\n3. Do nascer do sol ao seu ocaso, louvado seja o nome do Senhor.\n7. Ele levanta do pó o indigente e tira do lixo o pobre,\n9. Ele faz a estéril habitar em casa, mãe alegre de filhos.`
+  sao_joao_bosco: {
+    nome: 'São João Bosco',
+    descricao: 'Juventude e Família',
+    content: `**Oração aos Jovens e Famílias**\n\nÓ Dom Bosco, pai e mestre da juventude, olhai para nossos filhos e para nossa família. Afastai deles os perigos do mundo, os vícios e as más companhias. Guiai seus passos no caminho do bem e da alegria cristã.`
   },
-  salmo_127: {
-    nome: 'Salmo 127',
-    descricao: 'Casa',
-    content: `**Salmo 127 (126)**\n\n1. Se o Senhor não edificar a casa, em vão trabalham os construtores. Se o Senhor não guardar a cidade, em vão vigia a sentinela.\n2. Inútil levantar-vos antes da aurora, e retardar o vosso descanso, vós que comeis o pão do suor; a seus amados ele o dá enquanto dormem.\n3. Eis a herança do Senhor: os filhos; sua recompensa, o fruto do ventre.`
+  santa_gianna: {
+    nome: 'Santa Gianna Beretta',
+    descricao: 'Mães e Esposas',
+    content: `**Oração das Mães**\n\nSanta Gianna, que destes a vida pela vossa filha, ensinai-me a amar meus filhos com amor sacrificial. Ajudai-me a ser uma mãe presente, carinhosa e firme na fé. Abençoai minha gestação (ou meus filhos) e meu matrimônio.`
   },
-  salmo_139: {
-    nome: 'Salmo 139',
-    descricao: 'Deus me vê',
-    content: `**Salmo 139 (138)**\n\n1. Senhor, vós me perscrutais e me conheceis. Sabeis quando me sento e quando me levanto.\n13. Pois vós formastes o meu interior, vós me tecestes no seio de minha mãe.\n14. Eu vos louvo porque me fizestes de modo assombroso. Maravilhosas são as vossas obras.\n23. Sondai-me, ó Deus, e conhecei o meu coração; provai-me e conhecei os meus pensamentos.`
+  alma_cristo: {
+    nome: 'Santo Inácio - Anima Christi',
+    descricao: 'Comunhão',
+    content: `**Alma de Cristo**\n\nAlma de Cristo, santificai-me. Corpo de Cristo, salvai-me. Sangue de Cristo, inebriai-me. Água do lado de Cristo, lavai-me. Paixão de Cristo, confortai-me. Ó bom Jesus, ouvi-me. Dentro de vossas chagas, escondei-me. Não permitais que eu me separe de vós. Do espírito maligno, defendei-me. Na hora da minha morte, chamai-me.`
   },
-  // --- O SANTO TERÇO ---
-  // --- O SANTO TERÇO ---
+  madre_teresa: {
+    nome: 'Santa Madre Teresa',
+    descricao: 'Faze-o assim mesmo',
+    content: `**Faze-o assim mesmo**\n\nO bem que fazes hoje será esquecido amanhã. Faze o bem assim mesmo. Se és honesto e franco, as pessoas podem enganar-te. Sê honesto e franco assim mesmo. O que levas anos para construir, alguém pode destruir de uma hora para outra. Constrói assim mesmo. Ao final, nunca foi entre ti e eles. Foi sempre entre ti e Deus.`
+  },
+  sao_francisco_sales: {
+    nome: 'São Francisco de Sales',
+    descricao: 'Paz e Doçura',
+    content: `**Nada Pedir, Nada Recusar**\n\nNão te precipites, não te aflijas. Tudo o que acontece é permitido por Deus para o teu bem. Faze tudo com calma e com muita doçura. A paciência é a virtude dos fortes. Acalma teu coração em Deus.`
+  },
+  santo_efrem: {
+    nome: 'Santo Efrém',
+    descricao: 'Conversão',
+    content: `**Oração de Santo Efrém**\n\nSenhor e Mestre de minha vida, afasta de mim o espírito de preguiça, de abatimento, de domínio e de falatório. Concede a mim, teu servo, o espírito de integridade, de humildade, de paciência e de amor. Sim, Senhor e Rei, concede-me ver os meus próprios pecados e não julgar o meu irmão.`
+  },
+  sao_vicente: {
+    nome: 'São Vicente de Paulo',
+    descricao: 'Caridade',
+    content: `**Senhor, ensina-me a ser generoso**\n\nSenhor, ensina-me a ser generoso, a servir-te como mereces, a dar sem contar, a combater sem cuidar das feridas, a trabalhar sem procurar descanso, a gastar-me sem esperar outra recompensa senão a de saber que faço a Tua santa vontade.`
+  },
+  santa_catarina_sena: {
+    nome: 'Santa Catarina de Sena',
+    descricao: 'Fogo do Espírito',
+    content: `**Oração ao Espírito Santo**\n\nÓ Espírito Santo, vinde ao meu coração. Ó Deus vivo, tirai-me todo o temor e dai-me o Vosso Amor. Vinde, fogo de amor, e consumi em mim todo o amor próprio e todo o apego às coisas terrenas, para que eu ame somente a Vós.`
+  },
+  sao_bento_cruz: {
+    nome: 'Medalha de São Bento',
+    descricao: 'Exorcismo',
+    content: `**A Cruz Sagrada**\n\nA Cruz Sagrada seja a minha luz, não seja o dragão o meu guia. Retira-te, satanás! Nunca me aconselhes coisas vãs. É mau o que tu me ofereces, bebe tu mesmo os teus venenos!`
+  },
+  santo_antonio_milagres: {
+    nome: 'Santo Antônio',
+    descricao: 'Milagres e Perdidos',
+    content: `**Responsório de Santo Antônio**\n\nSe milagres desejais, recorrei a Santo Antônio; vereis fugir o demônio e as tentações infernais. Recupera-se o perdido, rompe-se a dura prisão, e no auge do furacão, cede o mar embravecido.`
+  },
+  sao_cristovao: {
+    nome: 'São Cristóvão',
+    descricao: 'Motoristas',
+    content: `**Oração do Motorista**\n\nDai-me, Senhor, firmeza e vigilância no volante, para que eu chegue ao meu destino sem acidentes. Protegei os que viajam comigo e todos os que cruzarem o meu caminho. São Cristóvão, rogai por nós!`
+  },
+  sao_tarcisio: {
+    nome: 'São Tarcísio',
+    descricao: 'Coragem',
+    content: `**Oração pela Eucaristia**\n\nSão Tarcísio, mártir da Eucaristia, que preferistes morrer a entregar o Corpo de Cristo aos profanadores. Ensinai-me a ter um respeito profundo e um amor ardente por Jesus na Hóstia Santa.`
+  },
+  sao_domingos: {
+    nome: 'São Domingos',
+    descricao: 'Santo Rosário',
+    content: `**Luz da Igreja**\n\nSão Domingos, luz da Igreja, doutor da Verdade, rosa de paciência, de castidade marfim. Vós que recebestes o Rosário das mãos de Maria, ensinai-nos a rezá-lo com devoção para vencer as heresias e os perigos de hoje.`
+  },
+  sao_joao_paulo: {
+    nome: 'São João Paulo II',
+    descricao: 'Famílias',
+    content: `**Oração pelas Famílias**\n\nDeus, que em Vosso mistério sois Família - Pai, Filho e Espírito Santo -, ensinai as nossas famílias a serem reflexo do Vosso amor trinitário. Que o amor seja mais forte que qualquer fraqueza ou crise.`
+  },
+  santa_clara: {
+    nome: 'Santa Clara',
+    descricao: 'Bênção',
+    content: `**Bênção de Santa Clara**\n\nO Senhor vos abençoe e vos guarde. O Senhor vos mostre a sua face e se compadeça de vós. O Senhor volte para vós o seu olhar e vos dê a paz. O Senhor esteja sempre convosco e vós estejais sempre com Ele.`
+  },
+  sao_lucas: {
+    nome: 'São Lucas',
+    descricao: 'Saúde e Médicos',
+    content: `**Oração dos Enfermos**\n\nGlorioso São Lucas, médico e evangelista, que conhecestes a fragilidade humana e o poder curador de Jesus. Intercedei por mim e por todos os doentes (citar nomes), para que recuperemos a saúde e louvemos a Deus.`
+  },
+  sao_roque: {
+    nome: 'São Roque',
+    descricao: 'Contra Pestes',
+    content: `**Oração a São Roque**\n\nSão Roque, que curastes muitos doentes com o sinal da Cruz e fostes vós mesmo provado pela doença. Livrai-nos das doenças contagiosas, das epidemias e de todo mal físico.`
+  },
+  santa_barbara: {
+    nome: 'Santa Bárbara',
+    descricao: 'Tempestades',
+    content: `**Proteção contra Tempestades**\n\nSanta Bárbara, que sois invocada nas tempestades e trovões, protegei minha casa e minha família dos perigos da natureza, dos raios e das mortes repentinas.`
+  },
+  santa_brida: {
+    nome: 'Santa Brígida',
+    descricao: 'Paixão de Jesus',
+    content: `**Oração da Paixão**\n\nBendito sejais, Senhor Jesus, que predissestes a vossa morte e na Última Ceia nos destes o vosso Corpo e Sangue. Abri meu coração para compreender o preço da minha salvação e viver em ação de graças.`
+  },
+  sao_maximiliano: {
+    nome: 'São Maximiliano Kolbe',
+    descricao: 'Consagração',
+    content: `**Consagração à Imaculada**\n\nÓ Imaculada, Rainha do Céu e da Terra, refúgio dos pecadores e nossa Mãe amantíssima, a Vós confio toda a minha vida, na vida e na morte, para que disponhais de mim segundo a Vossa vontade.`
+  },
+  padre_pio_ficai: {
+    nome: 'Padre Pio',
+    descricao: 'Ficai Comigo',
+    content: `**Ficai Comigo, Senhor**\n\nFicai comigo, Senhor, pois preciso da vossa presença para não vos esquecer. Sabeis com que facilidade vos abandono. Ficai comigo, Senhor, porque sou fraco e preciso da vossa força para não cair.`
+  },
+  sao_gabriel: {
+    nome: 'São Gabriel Arcanjo',
+    descricao: 'Boas Notícias',
+    content: `**Oração a São Gabriel**\n\nSão Gabriel Arcanjo, mensageiro de Deus, vós que anunciastes a Maria a vinda do Salvador, trazei boas notícias para a minha vida. Ajudai-me a escutar a voz de Deus e a dizer o meu "Sim" a Ele.`
+  },
+  santo_andre: {
+    nome: 'Santo André',
+    descricao: 'Cruz de André',
+    content: `**Oração da Cruz de Santo André**\n\nSalve, ó Cruz, inaugurada pelo Corpo de Cristo e adornada com os seus membros como pedras preciosas! Antes que o Senhor fosse elevado em ti, inspiravas temor; agora, és fonte de amor e desejo. Recebe-me e leva-me ao meu Mestre.`
+  },
+  nsra_fatima: {
+    nome: 'N. Sra. de Fátima',
+    descricao: 'Oração do Anjo',
+    content: `**Meu Deus, eu creio**\n\nMeu Deus, eu creio, adoro, espero e amo-Vos. Peço-Vos perdão para os que não creem, não adoram, não esperam e não Vos amam.`
+  },
   'conteudo_terco_completo': {
     nome: 'Como Rezar o Santo Terço',
     descricao: 'Guia Completo e Mistérios',
@@ -629,115 +729,111 @@ const PRAYERS = {
     content: `**Salve Rainha**\n\nSalve, Rainha, Mãe de misericórdia, vida, doçura e esperança nossa, salve! A vós bradamos os degredados filhos de Eva. A vós suspiramos, gemendo e chorando neste vale de lágrimas. Eia, pois, advogada nossa, esses vossos olhos misericordiosos a nós volvei, e depois deste desterro mostrai-nos Jesus, bendito fruto do vosso ventre, ó clemente, ó piedosa, ó doce sempre Virgem Maria.`
   },
 
-  salmo_121: {
-    nome: 'Salmo 121',
-    descricao: 'Socorro',
-    content: `**Salmo 121 (120)**\n\n1. Levanto meus olhos para os montes: de onde me virá o auxílio?\n2. O meu auxílio vem do Senhor, que fez o céu e a terra.\n3. Não deixará teu pé vacilar; aquele que te guarda não dorme.\n5. O Senhor é o teu guarda, o Senhor é a tua sombra à tua direita.\n8. O Senhor guardará a tua saída e a tua entrada, desde agora e para sempre.`
+  // --- NOVAS ORAÇÕES DE SANTOS (PARTE 2) ---
+  madre_teresa: {
+    nome: 'Santa Madre Teresa',
+    descricao: 'Faze-o assim mesmo',
+    content: `**Faze-o assim mesmo**\n\nO bem que fazes hoje será esquecido amanhã. Faze o bem assim mesmo. Se és honesto e franco, as pessoas podem enganar-te. Sê honesto e franco assim mesmo. O que levas anos para construir, alguém pode destruir de uma hora para outra. Constrói assim mesmo. Ao final, nunca foi entre ti e eles. Foi sempre entre ti e Deus.`
   },
-  salmo_85: {
-    nome: 'Salmo 85',
-    descricao: 'Paz',
-    content: `**Salmo 85 (84)**\n\n2. Senhor, fostes propício à vossa terra, trouxestes de volta os cativos de Jacó.\n8. Mostrai-nos, Senhor, a vossa misericórdia, e dai-nos a vossa salvação.\n11. A misericórdia e a verdade se encontraram, a justiça e a paz se beijaram.\n13. O Senhor dará o que é bom, e a nossa terra dará o seu fruto.`
+  sao_francisco_sales: {
+    nome: 'São Francisco de Sales',
+    descricao: 'Paz e Doçura',
+    content: `**Nada Pedir, Nada Recusar**\n\nNão te precipites, não te aflijas. Tudo o que acontece é permitido por Deus para o teu bem. Faze tudo com calma e com muita doçura. A paciência é a virtude dos fortes. Acalma teu coração em Deus.`
   },
-  salmo_147: {
-    nome: 'Salmo 147',
-    descricao: 'Cura',
-    content: `**Salmo 147 (146)**\n\n1. Louvai o Senhor, porque é bom cantar louvores ao nosso Deus; porque é agradável o louvor.\n3. Ele cura os corações atribulados e enfaixa as suas feridas.\n4. Conta o número das estrelas, chama-as a todas pelos seus nomes.\n11. O Senhor se agrada dos que o temem, dos que esperam na sua misericórdia.`
+  santo_efrem: {
+    nome: 'Santo Efrém',
+    descricao: 'Conversão',
+    content: `**Oração de Santo Efrém**\n\nSenhor e Mestre de minha vida, afasta de mim o espírito de preguiça, de abatimento, de domínio e de falatório. Concede a mim, teu servo, o espírito de integridade, de humildade, de paciência e de amor. Sim, Senhor e Rei, concede-me ver os meus próprios pecados e não julgar o meu irmão.`
   },
-  salmo_27: {
-    nome: 'Salmo 27',
-    descricao: 'Luz',
-    content: `**Salmo 27 (26)**\n\n1. O Senhor é minha luz e salvação; de quem terei medo? O Senhor é a proteção da minha vida; perante quem eu tremerei?\n3. Ainda que um exército se acampe contra mim, meu coração não temerá; ainda que a guerra estoure contra mim, mesmo assim estarei confiante.\n4. Uma só coisa peço ao Senhor, e a buscarei: habitar na casa do Senhor todos os dias da minha vida.\n8. Meu coração diz a vosso respeito: "Buscai a minha face!" A vossa face, Senhor, eu busco.\n14. Espera no Senhor e sê forte! Fortifique-se o teu coração e espera no Senhor!`
+  sao_vicente: {
+    nome: 'São Vicente de Paulo',
+    descricao: 'Caridade',
+    content: `**Senhor, ensina-me a ser generoso**\n\nSenhor, ensina-me a ser generoso, a servir-te como mereces, a dar sem contar, a combater sem cuidar das feridas, a trabalhar sem procurar descanso, a gastar-me sem esperar outra recompensa senão a de saber que faço a Tua santa vontade.`
   },
-  salmo_32: {
-    nome: 'Salmo 32',
-    descricao: 'Perdão',
-    content: `**Salmo 32 (31)**\n\n1. Feliz aquele cuja iniquidade foi perdoada, cujo pecado foi coberto.\n2. Feliz o homem a quem o Senhor não imputa culpa, e em cujo espírito não há engano.\n3. Enquanto me calei, meus ossos se consumiam, e eu gemia todo o dia.\n5. Confessei-vos o meu pecado e não escondi a minha culpa. Disse: "Confessarei ao Senhor a minha iniquidade", e vós perdoastes a pena do meu pecado.\n7. Vós sois o meu refúgio, vós me preservais da angústia, e me cercais de cânticos de livramento.`
+  santa_catarina_sena: {
+    nome: 'Santa Catarina de Sena',
+    descricao: 'Fogo do Espírito',
+    content: `**Oração ao Espírito Santo**\n\nÓ Espírito Santo, vinde ao meu coração. Ó Deus vivo, tirai-me todo o temor e dai-me o Vosso Amor. Vinde, fogo de amor, e consumi em mim todo o amor próprio e todo o apego às coisas terrenas, para que eu ame somente a Vós.`
   },
-  salmo_51: {
-    nome: 'Salmo 51',
-    descricao: 'Miserere',
-    content: `**Salmo 51 (50)**\n\n3. Tende piedade de mim, ó Deus, segundo a vossa misericórdia. Na imensidão de vossa bondade, apagai a minha mancha.\n4. Lavai-me totalmente da minha iniquidade e purificai-me do meu pecado.\n12. Criai em mim um coração puro, ó Deus, e renovai no meu interior um espírito reto.\n14. Devolvei-me a alegria de vossa salvação e sustentai-me com um espírito generoso.\n19. Meu sacrifício, ó Deus, é um espírito contrito; um coração contrito e humilhado, ó Deus, que não desprezareis.`
+  sao_bento_cruz: {
+    nome: 'Medalha de São Bento',
+    descricao: 'Exorcismo',
+    content: `**A Cruz Sagrada**\n\nA Cruz Sagrada seja a minha luz, não seja o dragão o meu guia. Retira-te, satanás! Nunca me aconselhes coisas vãs. É mau o que tu me ofereces, bebe tu mesmo os teus venenos!`
   },
-  salmo_46: {
-    nome: 'Salmo 46',
-    descricao: 'Fortaleza',
-    content: `**Salmo 46 (45)**\n\n2. Deus é nosso refúgio e fortaleza, socorro sempre encontrado nos perigos.\n3. Por isso, não temeremos, ainda que a terra trema e os montes se desmoronem no meio do mar.\n5. Os braços de um rio alegram a cidade de Deus, o santuário do Altíssimo.\n11. Aquietai-vos e sabei que eu sou Deus, exaltado entre as nações, exaltado na terra.\n12. O Senhor dos exércitos está conosco, o Deus de Jacó é a nossa cidadela.`
+  santo_antonio_milagres: {
+    nome: 'Santo Antônio',
+    descricao: 'Milagres e Perdidos',
+    content: `**Responsório de Santo Antônio**\n\nSe milagres desejais, recorrei a Santo Antônio; vereis fugir o demônio e as tentações infernais. Recupera-se o perdido, rompe-se a dura prisão, e no auge do furacão, cede o mar embravecido.`
   },
-  salmo_70: {
-    nome: 'Salmo 70',
-    descricao: 'Socorro',
-    content: `**Salmo 70 (69)**\n\n2. Ó Deus, vinde em meu auxílio. Senhor, apressai-vos em me socorrer!\n3. Fiquem envergonhados e confusos os que querem tirar-me a vida. Voltem atrás e sejam cobertos de vergonha os que se comprazem com o meu mal.\n5. Exultem e alegrem-se em vós todos os que vos buscam; e digam sem cessar: "Glória a Deus!" os que amam a vossa salvação.\n6. Eu, porém, sou pobre e necessitado; ó Deus, vinde logo em meu auxílio. Vós sois o meu amparo e libertador; Senhor, não tardeis!`
+  sao_cristovao: {
+    nome: 'São Cristóvão',
+    descricao: 'Motoristas',
+    content: `**Oração do Motorista**\n\nDai-me, Senhor, firmeza e vigilância no volante, para que eu chegue ao meu destino sem acidentes. Protegei os que viajam comigo e todos os que cruzarem o meu caminho. São Cristóvão, rogai por nós!`
   },
-  salmo_73: {
-    nome: 'Salmo 73',
-    descricao: 'Rocha',
-    content: `**Salmo 73 (72)**\n\n23. Todavia, estou sempre convosco, vós me segurais pela mão direita.\n24. Vós me guiais com o vosso conselho e por fim me recebereis na glória.\n25. A quem tenho eu no céu senão a vós? E na terra nada mais desejo além de vós.\n26. Ainda que minha carne e meu coração desfaleçam, Deus é a rocha do meu coração e a minha herança para sempre.`
+  sao_tarcisio: {
+    nome: 'São Tarcísio',
+    descricao: 'Coragem',
+    content: `**Oração pela Eucaristia**\n\nSão Tarcísio, mártir da Eucaristia, que preferistes morrer a entregar o Corpo de Cristo aos profanadores. Ensinai-me a ter um respeito profundo e um amor ardente por Jesus na Hóstia Santa.`
   },
-  salmo_41: {
-    nome: 'Salmo 41',
-    descricao: 'Enfermo',
-    content: `**Salmo 41 (40)**\n\n2. Feliz quem cuida do fraco e do indigente; no dia da desgraça o Senhor o libertará.\n3. O Senhor o guardará e lhe conservará a vida, e o fará feliz na terra, e não o entregará à vontade de seus inimigos.\n4. O Senhor o assistirá no leito de dores; vós lhe restituireis a saúde na sua doença.\n5. Eu disse: Senhor, tende piedade de mim. Curai a minha alma, pois pequei contra vós.`
+  sao_domingos: {
+    nome: 'São Domingos',
+    descricao: 'Santo Rosário',
+    content: `**Luz da Igreja**\n\nSão Domingos, luz da Igreja, doutor da Verdade, rosa de paciência, de castidade marfim. Vós que recebestes o Rosário das mãos de Maria, ensinai-nos a rezá-lo com devoção para vencer as heresias e os perigos de hoje.`
   },
-  salmo_103: {
-    nome: 'Salmo 103',
-    descricao: 'Louvor',
-    content: `**Salmo 103 (102)**\n\n1. Bendize, ó minha alma, ao Senhor, e tudo o que existe em mim bendiga o seu santo nome.\n2. Bendize, ó minha alma, ao Senhor, e não te esqueças de nenhum de seus benefícios.\n3. É ele quem perdoa todas as tuas culpas, quem cura todas as tuas doenças.\n4. É ele quem salva tua vida do fosso, e te coroa de bondade e misericórdia.\n8. O Senhor é clemente e compassivo, paciente e cheio de bondade.`
+  sao_joao_paulo: {
+    nome: 'São João Paulo II',
+    descricao: 'Famílias',
+    content: `**Oração pelas Famílias**\n\nDeus, que em Vosso mistério sois Família - Pai, Filho e Espírito Santo -, ensinai as nossas famílias a serem reflexo do Vosso amor trinitário. Que o amor seja mais forte que qualquer fraqueza ou crise.`
   },
-  salmo_56: {
-    nome: 'Salmo 56',
-    descricao: 'Confiar',
-    content: `**Salmo 56 (55)**\n\n2. Tem misericórdia de mim, ó Deus, porque o homem me persegue; o dia todo guerreando me oprime.\n4. Em qualquer tempo em que eu temer, confiarei em ti.\n5. Em Deus, cuja palavra eu louvo, em Deus ponho a minha confiança e não temerei. Que me poderá fazer a carne?\n9. Tu contas as minhas vagabundações; põe as minhas lágrimas no teu odre. Não estão elas no teu livro?\n14. Pois tu livraste a minha alma da morte, como também os meus pés de tropeçarem, para que eu ande diante de Deus na luz dos viventes.`
+  santa_clara: {
+    nome: 'Santa Clara',
+    descricao: 'Bênção',
+    content: `**Bênção de Santa Clara**\n\nO Senhor vos abençoe e vos guarde. O Senhor vos mostre a sua face e se compadeça de vós. O Senhor volte para vós o seu olhar e vos dê a paz. O Senhor esteja sempre convosco e vós estejais sempre com Ele.`
   },
-  salmo_25: {
-    nome: 'Salmo 25',
-    descricao: 'Caminhos',
-    content: `**Salmo 25 (24)**\n\n1. A vós, Senhor, elevo a minha alma. Meu Deus, em vós confio; não seja eu envergonhado, nem exultem sobre mim os meus inimigos.\n4. Mostrai-me, Senhor, os vossos caminhos, e ensinai-me as vossas veredas.\n5. Guiai-me na vossa verdade e ensinai-me, pois vós sois o Deus da minha salvação; em vós espero todo o dia.\n10. Todas as veredas do Senhor são misericórdia e verdade para aqueles que guardam a sua aliança e os seus testemunhos.`
+  sao_lucas: {
+    nome: 'São Lucas',
+    descricao: 'Saúde e Médicos',
+    content: `**Oração dos Enfermos**\n\nGlorioso São Lucas, médico e evangelista, que conhecestes a fragilidade humana e o poder curador de Jesus. Intercedei por mim e por todos os doentes (citar nomes), para que recuperemos a saúde e louvemos a Deus.`
   },
-  salmo_15: {
-    nome: 'Salmo 15',
-    descricao: 'Santuário',
-    content: `**Salmo 15 (14)**\n\n1. Senhor, quem habitará no vosso santuário? Quem poderá morar na vossa santa montanha?\n2. Aquele que caminha sem mancha e pratica a justiça; que pensa a verdade no seu coração e não calunia com a sua língua.\n3. Que não faz mal ao seu próximo, nem lança opróbrio contra o seu vizinho.\n5. Aquele que assim procede jamais será abalado.`
+  sao_roque: {
+    nome: 'São Roque',
+    descricao: 'Contra Pestes',
+    content: `**Oração a São Roque**\n\nSão Roque, que curastes muitos doentes com o sinal da Cruz e fostes vós mesmo provado pela doença. Livrai-nos das doenças contagiosas, das epidemias e de todo mal físico.`
   },
-  salmo_42: {
-    nome: 'Salmo 42',
-    descricao: 'Sede',
-    content: `**Salmo 42 (41)**\n\n2. Assim como a corça suspira pelas águas correntes, suspira a minha alma por vós, ó Deus.\n3. A minha alma tem sede de Deus, do Deus vivo; quando irei contemplar a face de Deus?\n4. Minhas lágrimas têm sido o meu alimento de dia e de noite, enquanto me dizem todos os dias: "Onde está o teu Deus?"\n6. Por que estás abatida, ó minha alma, e por que te perturbas dentro de mim? Espera em Deus, pois ainda o louvarei, a ele, meu auxílio e meu Deus.`
+  santa_barbara: {
+    nome: 'Santa Bárbara',
+    descricao: 'Tempestades',
+    content: `**Proteção contra Tempestades**\n\nSanta Bárbara, que sois invocada nas tempestades e trovões, protegei minha casa e minha família dos perigos da natureza, dos raios e das mortes repentinas.`
   },
-  salmo_63: {
-    nome: 'Salmo 63',
-    descricao: 'Buscar',
-    content: `**Salmo 63 (62)**\n\n2. Ó Deus, vós sois o meu Deus, com ardor vos procuro; a minha alma tem sede de vós, minha carne vos deseja com ansiedade, como terra seca, sedenta e sem água.\n4. Porque vossa graça é melhor que a vida; os meus lábios vos louvarão.\n5. Assim eu vos bendirei enquanto viver; em vosso nome levantarei as minhas mãos.\n8. Porque vós sois o meu auxílio, e à sombra das vossas asas eu canto de alegria.`
+  santa_brida: {
+    nome: 'Santa Brígida',
+    descricao: 'Paixão de Jesus',
+    content: `**Oração da Paixão**\n\nBendito sejais, Senhor Jesus, que predissestes a vossa morte e na Última Ceia nos destes o vosso Corpo e Sangue. Abri meu coração para compreender o preço da minha salvação e viver em ação de graças.`
   },
-  salmo_40: {
-    nome: 'Salmo 40',
-    descricao: 'Esperar',
-    content: `**Salmo 40 (39)**\n\n2. Esperei com paciência no Senhor, e ele se inclinou para mim, e ouviu o meu clamor.\n3. Tirou-me de um lago horrível, de um charco de lodo, pôs os meus pés sobre uma rocha, firmou os meus passos.\n4. E pôs um novo cântico na minha boca, um hino ao nosso Deus. Muitos o verão, e temerão, e confiarão no Senhor.\n9. Tenho prazer em fazer a vossa vontade, ó meu Deus, e a vossa lei está no meio do meu coração.`
+  sao_maximiliano: {
+    nome: 'São Maximiliano Kolbe',
+    descricao: 'Consagração',
+    content: `**Consagração à Imaculada**\n\nÓ Imaculada, Rainha do Céu e da Terra, refúgio dos pecadores e nossa Mãe amantíssima, a Vós confio toda a minha vida, na vida e na morte, para que disponhais de mim segundo a Vossa vontade.`
   },
-  salmo_31: {
-    nome: 'Salmo 31',
-    descricao: 'Refúgio',
-    content: `**Salmo 31 (30)**\n\n2. Em vós, Senhor, me refugio; nunca seja eu confundido; livrai-me pela vossa justiça.\n3. Inclinai para mim os vossos ouvidos, apressai-vos em me livrar. Sede para mim uma rocha de refúgio, uma casa de defesa para me salvar.\n6. Nas vossas mãos encomendo o meu espírito; vós me redimistes, Senhor Deus da verdade.\n15. Eu, porém, confio em vós, Senhor; eu digo: "Vós sois o meu Deus".`
+  padre_pio_ficai: {
+    nome: 'Padre Pio',
+    descricao: 'Ficai Comigo',
+    content: `**Ficai Comigo, Senhor**\n\nFicai comigo, Senhor, pois preciso da vossa presença para não vos esquecer. Sabeis com que facilidade vos abandono. Ficai comigo, Senhor, porque sou fraco e preciso da vossa força para não cair.`
   },
-  salmo_98: {
-    nome: 'Salmo 98',
-    descricao: 'Cantai',
-    content: `**Salmo 98 (97)**\n\n1. Cantai ao Senhor um cântico novo, porque ele fez maravilhas; a sua destra e o seu braço santo lhe alcançaram a vitória.\n2. O Senhor fez notória a sua salvação, manifestou a sua justiça perante os olhos das nações.\n4. Exultai no Senhor, toda a terra; exclamai, e alegrai-vos de prazer, e cantai louvores.\n9. Diante do Senhor, que vem julgar a terra; com justiça julgará o mundo, e o povo com equidade.`
+  sao_gabriel: {
+    nome: 'São Gabriel Arcanjo',
+    descricao: 'Boas Notícias',
+    content: `**Oração a São Gabriel**\n\nSão Gabriel Arcanjo, mensageiro de Deus, vós que anunciastes a Maria a vinda do Salvador, trazei boas notícias para a minha vida. Ajudai-me a escutar a voz de Deus e a dizer o meu "Sim" a Ele.`
   },
-  salmo_100: {
-    nome: 'Salmo 100',
-    descricao: 'Aclamai',
-    content: `**Salmo 100 (99)**\n\n1. Aclamai ao Senhor, terra inteira! Servi ao Senhor com alegria, ide a ele cantando jubilosos!\n3. Sabei que o Senhor é Deus: ele nos fez, e a ele pertencemos; somos o seu povo e as ovelhas do seu rebanho.\n4. Entrai por suas portas com ações de graças, e em seus átrios com hinos de louvor; dai-lhe graças e bendizei o seu nome.\n5. Porque o Senhor é bom, e eterna é a sua misericórdia; a sua fidelidade estende-se de geração em geração.`
+  santo_andre: {
+    nome: 'Santo André',
+    descricao: 'Cruz de André',
+    content: `**Oração da Cruz de Santo André**\n\nSalve, ó Cruz, inaugurada pelo Corpo de Cristo e adornada com os seus membros como pedras preciosas! Antes que o Senhor fosse elevado em ti, inspiravas temor; agora, és fonte de amor e desejo. Recebe-me e leva-me ao meu Mestre.`
   },
-  salmo_118: {
-    nome: 'Salmo 118',
-    descricao: 'Misericórdia',
-    content: `**Salmo 118 (117)**\n\n1. Dai graças ao Senhor porque ele é bom, porque eterna é a sua misericórdia.\n5. Na minha angústia clamei ao Senhor; e o Senhor me ouviu e me pôs em um lugar largo.\n6. O Senhor está comigo; não temerei o que me pode fazer o homem.\n24. Este é o dia que fez o Senhor; regozijemo-nos e alegremo-nos nele.`
-  },
-  salmo_143: {
-    nome: 'Salmo 143',
-    descricao: 'Ouvir',
-    content: `**Salmo 143 (142)**\n\n1. Senhor, escutai a minha prece, dai ouvidos à minha súplica, pela vossa fidelidade; respondei-me pela vossa justiça.\n8. Fazei-me ouvir a vossa graça pela manhã, pois em vós confio; mostrai-me o caminho por onde devo andar, porque a vós elevo a minha alma.\n10. Ensinai-me a fazer a vossa vontade, pois vós sois o meu Deus; guie-me o vosso bom Espírito por terra plana.`
+  nsra_fatima: {
+    nome: 'N. Sra. de Fátima',
+    descricao: 'Oração do Anjo',
+    content: `**Meu Deus, eu creio**\n\nMeu Deus, eu creio, adoro, espero e amo-Vos. Peço-Vos perdão para os que não creem, não adoram, não esperam e não Vos amam.`
   }
 };
 
@@ -749,121 +845,121 @@ const MODULES_STRUCTURE = [
     nome: '1. Prosperidade financeira e providência',
     description: 'Confiança na provisão divina.',
     imagem: '/img/santo_agostinho_providencia.png',
-    items: ['guia_prosperidade', 'santo_agostinho_providencia', 'sao_jose_patrono', 'santa_edwiges', 'salmo_23', 'salmo_144', 'multiplicacao', 'salmo_34', 'sao_jose_operario', 'sao_pio_confianca', 'gloria']
+    items: ['guia_prosperidade', 'santo_agostinho_providencia', 'sao_jose_patrono', 'santa_edwiges', 'sao_nicolau', 'santo_homobono', 'multiplicacao', 'sao_mateus', 'sao_jose_operario', 'sao_pio_confianca', 'gloria']
   },
   {
     nome: '2. Conseguir um emprego ou abrir caminhos',
     description: 'Súplica por trabalho digno.',
     imagem: '/img/sao_jose_operario.png',
-    items: ['guia_emprego', 'sao_jose_operario', 'sao_caetano', 'salmo_128', 'sao_jose_carteira', 'salmo_91', 'vinde_espirito', 'novena_espirito', 'credo', 'salmo_37', 'terco_mariano']
+    items: ['guia_emprego', 'sao_jose_operario', 'sao_caetano', 'sao_josemaria', 'sao_jose_carteira', 'couraca_sao_patricio', 'vinde_espirito', 'novena_espirito', 'credo', 'madre_teresa', 'terco_mariano']
   },
   {
     nome: '3. Pagar dívidas e organizar a vida financeira',
     description: 'Sabedoria e libertação.',
     imagem: '/img/santa_edwiges.png',
-    items: ['guia_dividas', 'nsra_desterro', 'sao_miguel_libertacao', 'salmo_112', 'salmo_23', 'santo_inacio_entrega', 'sao_jose_patrono', 'santa_margarida_confianca', 'salmo_37', 'gloria', 'terco_mariano']
+    items: ['guia_dividas', 'nsra_desterro', 'sao_miguel_libertacao', 'sao_vicente', 'sao_nicolau', 'santo_inacio_entrega', 'sao_jose_patrono', 'santa_margarida_confianca', 'madre_teresa', 'gloria', 'terco_mariano']
   },
   {
     nome: '4. Conseguir filhos / fertilidade',
     description: 'O dom da vida.',
     imagem: '/img/background_catholic.png',
-    items: ['guia_fertilidade', 'sao_geraldo', 'sao_domingos_savio', 'santa_ana_suplica', 'santa_ana_joaquim', 'nsra_bom_parto', 'salmo_113', 'salmo_127', 'novena_santana', 'consagracao_auxiliadora', 'terco_mariano']
+    items: ['guia_fertilidade', 'sao_geraldo', 'sao_domingos_savio', 'santa_ana_suplica', 'santa_ana_joaquim', 'nsra_bom_parto', 'sao_domingos', 'sao_joao_bosco', 'novena_santana', 'consagracao_auxiliadora', 'terco_mariano']
   },
   {
     nome: '5. Gravidez protegida',
     description: 'Amparo gestacional.',
     imagem: '/img/background_catholic.png',
-    items: ['guia_gravidez', 'santa_isabel_visitacao', 'consagracao_ventre', 'nsra_bom_parto', 'salmo_139', 'anjo_guarda', 'salmo_121', 'sagrada_familia', 'ave_maria', 'magnificat', 'gloria']
+    items: ['guia_gravidez', 'santa_isabel_visitacao', 'consagracao_ventre', 'nsra_bom_parto', 'santa_gianna', 'anjo_guarda', 'sao_gabriel', 'sagrada_familia', 'ave_maria', 'magnificat', 'gloria']
   },
   {
     nome: '6. Casamento e encontrar um bom parceiro(a)',
     description: 'Vocação matrimonial.',
     imagem: '/img/sao_jose_patrono.png',
-    items: ['guia_casamento_enc', 'tobias_sara', 'santa_cecilia', 'santo_antonio', 'sao_rafael', 'sao_paulo_corintios', 'consagracao_auxiliadora', 'salmo_37', 'terco_mariano', 'sao_pio_confianca', 'pai_nosso']
+    items: ['guia_casamento_enc', 'tobias_sara', 'santa_cecilia', 'santo_antonio', 'sao_rafael', 'sao_paulo_corintios', 'consagracao_auxiliadora', 'madre_teresa', 'terco_mariano', 'sao_pio_confianca', 'pai_nosso']
   },
   {
     nome: '7. Restaurar um casamento',
     description: 'Reconciliação e paz.',
     imagem: '/img/background_catholic.png',
-    items: ['guia_casamento_rest', 'nsra_desatadora', 'jesus_perdao', 'oracao_esposos', 'sagrada_familia', 'sao_francisco', 'terco_familia', 'salmo_128', 'salmo_85', 'salmo_147', 'gloria']
+    items: ['guia_casamento_rest', 'nsra_desatadora', 'jesus_perdao', 'oracao_esposos', 'sagrada_familia', 'sao_francisco', 'terco_familia', 'sao_josemaria', 'sao_francisco_sales', 'sao_lucas', 'gloria']
   },
   {
     nome: '8. Proteção contra inveja e maldade',
     description: 'Defesa espiritual.',
     imagem: '/img/background_catholic.png',
-    items: ['guia_inveja', 'sao_jorge', 'sangue_cristo', 'sao_miguel', 'sao_paulo_efesios', 'salmo_27', 'sao_bento', 'salmo_91', 'anjo_guarda', 'credo', 'terco_mariano']
+    items: ['guia_inveja', 'sao_jorge', 'sangue_cristo', 'sao_miguel', 'sao_paulo_efesios', 'santa_luzia', 'sao_bento', 'couraca_sao_patricio', 'anjo_guarda', 'credo', 'terco_mariano']
   },
   {
     nome: '9. Quebrar ciclos ruins / recomeçar',
     description: 'Vida nova em Cristo.',
     imagem: '/img/background_catholic.png',
-    items: ['guia_recomecar', 'santo_agostinho', 'filho_prodigo', 'salmo_32', 'salmo_51', 'sao_pedro_clemente', 'terco_misericordia', 'santo_inacio_entrega', 'magnificat', 'credo', 'gloria']
+    items: ['guia_recomecar', 'santo_agostinho', 'filho_prodigo', 'santo_efrem', 'alma_cristo', 'sao_pedro_clemente', 'terco_misericordia', 'santo_inacio_entrega', 'magnificat', 'credo', 'gloria']
   },
   {
     nome: '10. Milagres e causas difíceis',
     description: 'Intercessão poderosa.',
     imagem: '/img/santa_edwiges.png',
-    items: ['guia_causas', 'santo_expedito', 'santa_filomena', 'salmo_70', 'santa_rita', 'sao_judas_tadeu', 'santa_rita_novena', 'terco_misericordia', 'salmo_46', 'credo', 'terco_mariano']
+    items: ['guia_causas', 'santo_expedito', 'santa_filomena', 'santo_antonio_milagres', 'santa_rita', 'sao_judas_tadeu', 'santa_rita_novena', 'terco_misericordia', 'sao_bento_cruz', 'credo', 'terco_mariano']
   },
   {
     nome: '11. Cura emocional profunda',
     description: 'Paz interior.',
     imagem: '/img/background_catholic.png',
-    items: ['guia_cura_emo', 'santa_dymphna', 'nsra_dores', 'salmo_34', 'salmo_147', 'santa_faustina_jaculatoria', 'sao_carlos_abandono', 'salmo_73', 'terco_mariano', 'magnificat', 'ave_maria']
+    items: ['guia_cura_emo', 'santa_dymphna', 'nsra_dores', 'sao_mateus', 'sao_lucas', 'santa_faustina_jaculatoria', 'sao_carlos_abandono', 'santa_catarina_sena', 'terco_mariano', 'magnificat', 'ave_maria']
   },
   {
     nome: '12. Cura física e consolo',
     description: 'Saúde do corpo.',
     imagem: '/img/background_catholic.png',
-    items: ['guia_cura_fisica', 'sao_camilo', 'sao_peregrino', 'isaias_servo', 'nsra_saude', 'salmo_41', 'salmo_103', 'sao_rafael', 'terco_misericordia', 'terco_mariano', 'gloria']
+    items: ['guia_cura_fisica', 'sao_camilo', 'sao_peregrino', 'isaias_servo', 'nsra_saude', 'sao_roque', 'nsra_fatima', 'sao_rafael', 'terco_misericordia', 'terco_mariano', 'gloria']
   },
   {
     nome: '13. Libertação do medo',
     description: 'Coragem e fé.',
     imagem: '/img/background_catholic.png',
-    items: ['guia_medo', 'santa_teresa_avila', 'isaias_nao_temas', 'salmo_23', 'salmo_27', 'salmo_56', 'sao_miguel', 'anjo_guarda', 'credo', 'terco_mariano', 'sao_pio_confianca']
+    items: ['guia_medo', 'santa_teresa_avila', 'isaias_nao_temas', 'sao_nicolau', 'santa_luzia', 'padre_pio_ficai', 'sao_miguel', 'anjo_guarda', 'credo', 'terco_mariano', 'sao_pio_confianca']
   },
   {
     nome: '14. Discernir decisões importantes',
     description: 'Sabedoria do Espírito.',
     imagem: '/img/background_catholic.png',
-    items: ['guia_decisoes', 'sao_tomas', 'salomao_sabedoria', 'salmo_119', 'vinde_espirito', 'sao_jeronimo_lectio', 'salmo_25', 'magnificat', 'credo', 'terco_mariano', 'gloria']
+    items: ['guia_decisoes', 'sao_tomas', 'salomao_sabedoria', 'salmo_119', 'vinde_espirito', 'sao_jeronimo_lectio', 'santo_andre', 'magnificat', 'credo', 'terco_mariano', 'gloria']
   },
   {
     nome: '15. Proteção dos filhos',
     description: 'Bênção sobre a família.',
     imagem: '/img/background_catholic.png',
-    items: ['guia_filhos', 'santa_monica', 'jeremias_lamentacoes', 'anjo_guarda', 'consagracao_auxiliadora', 'salmo_127', 'salmo_121', 'sagrada_familia', 'salmo_91', 'terco_mariano', 'gloria']
+    items: ['guia_filhos', 'santa_monica', 'jeremias_lamentacoes', 'anjo_guarda', 'consagracao_auxiliadora', 'sao_joao_bosco', 'sao_gabriel', 'sagrada_familia', 'couraca_sao_patricio', 'terco_mariano', 'gloria']
   },
   {
     nome: '16. Blindar o lar',
     description: 'Paz doméstica.',
     imagem: '/img/sao_jose_patrono.png',
-    items: ['guia_lar', 'santa_marta', 'nsra_loreto', 'salmo_15', 'sao_bento_casa', 'sao_jose_patrono', 'salmo_127', 'salmo_91', 'anjo_guarda', 'magnificat', 'terco_mariano']
+    items: ['guia_lar', 'santa_marta', 'nsra_loreto', 'santa_clara', 'sao_bento_casa', 'sao_jose_patrono', 'sao_joao_bosco', 'couraca_sao_patricio', 'anjo_guarda', 'magnificat', 'terco_mariano']
   },
   {
     nome: '17. Crescimento espiritual acelerado',
     description: 'Fervor na fé.',
     imagem: '/img/background_catholic.png',
-    items: ['guia_espiritual', 'santa_teresinha', 'sao_joao_cruz', 'salmo_42', 'sao_jeronimo_lectio', 'vinde_espirito', 'salmo_63', 'credo', 'terco_mariano', 'magnificat', 'gloria']
+    items: ['guia_espiritual', 'santa_teresinha', 'sao_joao_cruz', 'santa_brida', 'sao_jeronimo_lectio', 'vinde_espirito', 'sao_maximiliano', 'credo', 'terco_mariano', 'magnificat', 'gloria']
   },
   {
     nome: '18. Perseverança em tempos difíceis',
     description: 'Firmeza e esperança.',
     imagem: '/img/sao_pio_confianca.png',
-    items: ['guia_perseveranca', 'sao_paulo_combate', 'jo_paciencia', 'salmo_40', 'salmo_46', 'salmo_31', 'sao_pio_confianca', 'magnificat', 'terco_mariano', 'ave_maria', 'gloria']
+    items: ['guia_perseveranca', 'sao_paulo_combate', 'jo_paciencia', 'sao_tarcisio', 'sao_bento_cruz', 'santa_barbara', 'sao_pio_confianca', 'magnificat', 'terco_mariano', 'ave_maria', 'gloria']
   },
   {
     nome: '19. Alegria e gratidão',
     description: 'Louvor a Deus.',
     imagem: '/img/gloria.png',
-    items: ['guia_alegria', 'sao_filipe', 'salmo_98', 'profeta_daniel', 'te_deum', 'salmo_100', 'salmo_118', 'magnificat', 'sao_francisco', 'terco_mariano', 'gloria']
+    items: ['guia_alegria', 'sao_filipe', 'sao_joao_paulo', 'profeta_daniel', 'te_deum', 'sao_bras', 'sao_vicente', 'magnificat', 'sao_francisco', 'terco_mariano', 'gloria']
   },
   {
     nome: '20. Entregar totalmente a vida a Deus',
     description: 'Santidade total.',
     imagem: '/img/background_catholic.png',
-    items: ['guia_entrega', 'santo_inacio_entrega', 'santa_margarida_confianca', 'sao_carlos_abandono', 'jesus_getsemani', 'consagracao_auxiliadora', 'salmo_143', 'magnificat', 'credo', 'terco_mariano', 'pai_nosso']
+    items: ['guia_entrega', 'santo_inacio_entrega', 'santa_margarida_confianca', 'sao_carlos_abandono', 'jesus_getsemani', 'consagracao_auxiliadora', 'sao_mateus', 'magnificat', 'credo', 'terco_mariano', 'pai_nosso']
   },
   {
     nome: '🎁 O Santo Terço (Bônus)',
